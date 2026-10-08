@@ -971,16 +971,15 @@ const bgTemplates = {
 const pages = document.querySelectorAll('.page');
 const totalPages = pages.length;
 let currentPage = 0;
-const bgLayer = document.getElementById('bgLayer');
-
+  
 function setBackground(type){
-  if(bgTemplates[type]){
-    bgLayer.style.opacity = '0';
-    setTimeout(() => {
-      bgLayer.innerHTML = bgTemplates[type];
-      bgLayer.style.opacity = '1';
-    }, 250);
-  }
+  const layer = document.getElementById('bgLayer');
+  if(!layer || !bgTemplates[type]) return;
+  layer.style.opacity = '0';
+  setTimeout(() => {
+    layer.innerHTML = bgTemplates[type];
+    layer.style.opacity = '1';
+  }, 250);
 }
 
 function goToPage(index){
