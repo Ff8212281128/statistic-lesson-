@@ -791,3 +791,525 @@
 
 </body>
 </html>
+<!-- ===== CSS اضافی برای انیمیشن سیستماتیک ===== -->
+<style>
+  .systematic-container{
+    background:rgba(15,23,42,.7); border:1px solid var(--border);
+    border-radius:18px; padding:20px; margin:16px 0;
+  }
+  .groups-grid{
+    display:grid; grid-template-columns:repeat(5, 1fr);
+    gap:10px; margin-bottom:20px;
+  }
+  @media(max-width:600px){.groups-grid{grid-template-columns:repeat(5, 1fr); gap:5px;}}
+  
+  .group-box{
+    background:rgba(30,41,59,.6); border:1px solid var(--border);
+    border-radius:10px; padding:8px 4px;
+    display:flex; flex-direction:column; align-items:center; gap:4px;
+    transition:.3s;
+  }
+  .group-box.selected{
+    background:rgba(250,204,21,.2); border-color:var(--accent-3);
+    box-shadow:0 0 15px rgba(250,204,21,.4);
+  }
+  .group-box.start-point{
+    background:rgba(16,185,129,.2); border-color:var(--accent-4);
+    box-shadow:0 0 15px rgba(16,185,129,.4);
+  }
+  .group-num{
+    font-size:.7rem; color:var(--text-dim); font-weight:800;
+  }
+  .group-box.selected .group-num,
+  .group-box.start-point .group-num{color:#fff;}
+  .group-dots{
+    display:flex; gap:3px; flex-wrap:wrap; justify-content:center;
+  }
+  .group-dot{
+    width:6px; height:6px; border-radius:50%;
+    background:rgba(148,163,184,.4);
+    transition:.3s;
+  }
+  .group-box.selected .group-dot{background:var(--accent-3); box-shadow:0 0 8px var(--accent-3);}
+  .group-box.start-point .group-dot{background:var(--accent-4); box-shadow:0 0 8px var(--accent-4);}
+
+  .start-buttons{margin:20px 0; text-align:center;}
+  .start-row{
+    display:flex; justify-content:center; gap:12px; flex-wrap:wrap;
+  }
+  .start-btn{
+    width:60px; height:60px; border-radius:12px;
+    background:rgba(30,41,59,.8); border:2px solid var(--border);
+    color:#fff; font-size:1.4rem; font-weight:800;
+    cursor:pointer; transition:.25s;
+    font-family:inherit;
+  }
+  .start-btn:hover:not(:disabled){
+    background:rgba(56,189,248,.2); border-color:var(--accent);
+    transform:translateY(-3px);
+  }
+  .start-btn:disabled{opacity:.4; cursor:not-allowed;}
+  .start-btn.active{
+    background:rgba(16,185,129,.3); border-color:var(--accent-4);
+    box-shadow:0 0 20px rgba(16,185,129,.5);
+  }
+
+  .selected-info{
+    background:rgba(8,13,24,.7); border-radius:10px;
+    padding:14px; text-align:center;
+    border:1px solid var(--border);
+    font-size:.85rem; color:var(--text-dim);
+    min-height:60px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .selected-info.active{
+    color:#fde68a; border-color:rgba(250,204,21,.4);
+    background:rgba(250,204,21,.08);
+  }
+  .selected-info b{color:var(--accent-3); font-size:1.05rem; margin:0 3px;}
+</style>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+/* ============================================
+   BACKGROUND SVG TEMPLATES
+   ============================================ */
+const bgTemplates = {
+  grid: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="bgG1" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#0b1220"/>
+        <stop offset="100%" stop-color="#1e293b"/>
+      </linearGradient>
+      <pattern id="gridP" width="40" height="40" patternUnits="userSpaceOnUse">
+        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#38bdf8" stroke-width="0.5" opacity="0.15"/>
+      </pattern>
+    </defs>
+    <rect width="1200" height="800" fill="url(#bgG1)"/>
+    <rect width="1200" height="800" fill="url(#gridP)"/>
+    <circle cx="200" cy="200" r="180" fill="#38bdf8" opacity="0.04"/>
+    <circle cx="1000" cy="600" r="220" fill="#a78bfa" opacity="0.05"/>
+    <path d="M 0 400 Q 300 300 600 400 T 1200 400" fill="none" stroke="#38bdf8" stroke-width="1.5" opacity="0.15"/>
+  </svg>`,
+  clusters: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="bgG2" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#0b1220"/>
+        <stop offset="100%" stop-color="#1e1b4b"/>
+      </linearGradient>
+    </defs>
+    <rect width="1200" height="800" fill="url(#bgG2)"/>
+    <g opacity="0.15">
+      <circle cx="200" cy="200" r="100" fill="none" stroke="#38bdf8" stroke-width="2" stroke-dasharray="6 4"/>
+      <circle cx="500" cy="300" r="120" fill="none" stroke="#a78bfa" stroke-width="2" stroke-dasharray="6 4"/>
+      <circle cx="850" cy="200" r="90" fill="none" stroke="#10b981" stroke-width="2" stroke-dasharray="6 4"/>
+      <circle cx="300" cy="600" r="110" fill="none" stroke="#fb7185" stroke-width="2" stroke-dasharray="6 4"/>
+      <circle cx="750" cy="600" r="130" fill="none" stroke="#facc15" stroke-width="2" stroke-dasharray="6 4"/>
+    </g>
+  </svg>`,
+  bias: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="bgG3" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#1a0b0b"/>
+        <stop offset="100%" stop-color="#0b1220"/>
+      </linearGradient>
+    </defs>
+    <rect width="1200" height="800" fill="url(#bgG3)"/>
+    <path d="M 100 600 Q 400 200 600 400 Q 800 600 1100 600" fill="none" stroke="#fb7185" stroke-width="2" opacity="0.25"/>
+  </svg>`,
+  estimation: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="bgG4" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#0b1a1a"/>
+        <stop offset="100%" stop-color="#0b1220"/>
+      </linearGradient>
+    </defs>
+    <rect width="1200" height="800" fill="url(#bgG4)"/>
+    <path d="M 100 600 Q 400 100 600 100 Q 800 100 1100 600" fill="none" stroke="#10b981" stroke-width="2.5" opacity="0.35"/>
+    <line x1="600" y1="200" x2="600" y2="600" stroke="#a7f3d0" stroke-width="1" stroke-dasharray="6 4" opacity="0.3"/>
+  </svg>`,
+  quiz: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="bgG5" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#1a150b"/>
+        <stop offset="100%" stop-color="#0b1220"/>
+      </linearGradient>
+    </defs>
+    <rect width="1200" height="800" fill="url(#bgG5)"/>
+    <g fill="#facc15" opacity="0.06" font-family="Georgia" font-size="120" font-weight="bold">
+      <text x="150" y="250">?</text>
+      <text x="500" y="450">?</text>
+      <text x="850" y="200">?</text>
+      <text x="1050" y="600">?</text>
+    </g>
+  </svg>`,
+  summary: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="bgG6" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#0b1220"/>
+        <stop offset="100%" stop-color="#1e1b4b"/>
+      </linearGradient>
+    </defs>
+    <rect width="1200" height="800" fill="url(#bgG6)"/>
+    <g stroke="#38bdf8" stroke-width="1" opacity="0.25" fill="none">
+      <path d="M 200 200 L 400 300 L 600 250 L 800 350 L 1000 300"/>
+      <path d="M 300 500 L 500 450 L 700 550 L 900 500"/>
+    </g>
+    <g fill="#38bdf8" opacity="0.5">
+      <circle cx="200" cy="200" r="4"/><circle cx="400" cy="300" r="4"/>
+      <circle cx="600" cy="250" r="4"/><circle cx="800" cy="350" r="4"/>
+      <circle cx="1000" cy="300" r="4"/><circle cx="300" cy="500" r="4"/>
+      <circle cx="500" cy="450" r="4"/><circle cx="700" cy="550" r="4"/>
+      <circle cx="900" cy="500" r="4"/>
+    </g>
+  </svg>`
+};
+
+/* ============================================
+   PAGE NAVIGATION
+   ============================================ */
+const pages = document.querySelectorAll('.page');
+const totalPages = pages.length;
+let currentPage = 0;
+const bgLayer = document.getElementById('bgLayer');
+
+function setBackground(type){
+  if(bgTemplates[type]){
+    bgLayer.style.opacity = '0';
+    setTimeout(() => {
+      bgLayer.innerHTML = bgTemplates[type];
+      bgLayer.style.opacity = '1';
+    }, 250);
+  }
+}
+
+function goToPage(index){
+  if(index < 0 || index >= totalPages) return;
+  pages.forEach(p => p.classList.remove('active'));
+  pages[index].classList.add('active');
+  currentPage = index;
+  document.getElementById('progressInfo').textContent = `صفحه ${index+1} از ${totalPages}`;
+  const bgType = pages[index].getAttribute('data-bg') || 'grid';
+  setBackground(bgType);
+  updateDots();
+  pages[index].scrollTop = 0;
+}
+
+function updateDots(){
+  for(let i=0; i<totalPages; i++){
+    const container = document.getElementById('dots'+i);
+    if(!container) continue;
+    let html = '';
+    for(let j=0; j<totalPages; j++){
+      let cls = 'dot';
+      if(j === currentPage) cls += ' active';
+      else if(j < currentPage) cls += ' done';
+      html += `<div class="${cls}" onclick="goToPage(${j})"></div>`;
+    }
+    container.innerHTML = html;
+  }
+}
+
+/* ============================================
+   VIDEO LOADING
+   ============================================ */
+document.querySelectorAll('.video-box').forEach(box => {
+  const src = box.getAttribute('data-video');
+  if(!src) return;
+  const placeholder = box.querySelector('.placeholder');
+  if(!placeholder) return;
+
+  const video = document.createElement('video');
+  video.controls = true;
+  video.preload = 'metadata';
+  video.setAttribute('playsinline', '');
+  const source = document.createElement('source');
+  source.src = src;
+  source.type = 'video/mp4';
+  video.appendChild(source);
+
+  let loaded = false;
+  video.addEventListener('loadedmetadata', () => {
+    loaded = true;
+    placeholder.replaceWith(video);
+  });
+
+  video.load();
+});
+
+/* ============================================
+   EXERCISE HANDLING
+   ============================================ */
+document.querySelectorAll('.exercise').forEach(ex => {
+  const correct = parseInt(ex.getAttribute('data-correct'), 10);
+  const options = ex.querySelectorAll('.option');
+  const explain = ex.querySelector('.explain');
+
+  options.forEach(opt => {
+    opt.addEventListener('click', () => {
+      if(ex.dataset.answered === '1') return;
+      ex.dataset.answered = '1';
+
+      const chosen = parseInt(opt.getAttribute('data-i'), 10);
+      options.forEach(o => {
+        o.disabled = true;
+        const i = parseInt(o.getAttribute('data-i'), 10);
+        if(i === correct) o.classList.add('correct');
+      });
+
+      const isCorrect = chosen === correct;
+      if(!isCorrect) opt.classList.add('wrong');
+
+      explain.className = 'explain show ' + (isCorrect ? 'ok' : 'no');
+      explain.innerHTML = buildExplanation(ex, correct, chosen);
+    });
+  });
+});
+
+function buildExplanation(ex, correct, chosen){
+  const allExercises = Array.from(document.querySelectorAll('.exercise'));
+  const qNum = allExercises.indexOf(ex) + 1;
+  
+  const explanations = {
+    1: {
+      title: '✅ پاسخ صحیح: گزینه ب) k / N',
+      body: 'در نمونه‌گیری تصادفی ساده، هر واحد از جامعه شانس یکسانی برای انتخاب شدن دارد. این شانس برابر است با نسبت تعداد اعضای نمونه (k) به تعداد کل جامعه (N).',
+      compare: '🔍 مقایسه: اگر سوال درباره نمونه‌گیری طبقه‌ای بود، پاسخ متفاوت می‌شد — چون در طبقه‌ای احتمال انتخاب در هر طبقه برابر است اما بین طبقات ممکن است متفاوت باشد.'
+    },
+    2: {
+      title: '✅ پاسخ صحیح: گزینه پ) نمونه اریب می‌شود',
+      body: 'اگر نمونه را فقط از یک دانشگاه خاص بگیریم، دانشجویان آن دانشگاه نماینده کل دانشجویان شهر نیستند. این یک نمونه‌گیری غیراحتمالی است و نتیجه اریب می‌شود.',
+      compare: '🔍 مقایسه: اگر به جای یک دانشگاه، از هر دانشگاه شهر به نسبت تعداد دانشجویانش نمونه می‌گرفتیم، آنگاه نمونه نماینده واقعی جامعه بود. مثال طرح ترافیک هم دقیقاً همین مشکل را دارد.'
+    },
+    3: {
+      title: '✅ پاسخ صحیح: گزینه ب) نصف',
+      body: 'فرمول انحراف معیار برآورد میانگین: σ_x̄ = σ / √n. اگر n چهار برابر شود، √n دو برابر می‌شود، پس σ_x̄ نصف می‌شود.',
+      compare: '🔍 مقایسه: اگر n دو برابر می‌شد، انحراف معیار به اندازه ۱/√۲ کاهش می‌یافت. اگر σ دو برابر می‌شد، انحراف معیار برآورد هم دو برابر می‌شد.'
+    },
+    4: {
+      title: '✅ پاسخ صحیح: گزینه ت) طبقه‌ای',
+      body: 'وقتی جامعه به طبقات همگن تقسیم می‌شود (مثل دختر/پسر یا پایه‌های تحصیلی)، نمونه‌گیری طبقه‌ای بهترین گزینه است.',
+      compare: '🔍 مقایسه: اگر جامعه به خوشه‌های همگن تقسیم می‌شد، نمونه‌گیری خوشه‌ای مناسب‌تر بود. تفاوت کلیدی: در طبقه‌ای، تفاوت بین طبقات زیاد و درون طبقات کم است؛ در خوشه‌ای برعکس.'
+    },
+    5: {
+      title: '✅ پاسخ صحیح: گزینه پ) ۰٫۱',
+      body: 'با فرمول σ_x̄ = σ / √n: σ = ۳، n = ۹۰۰، پس √n = ۳۰ و σ_x̄ = ۳/۳۰ = ۰٫۱.',
+      compare: '🔍 مقایسه: اگر σ = ۳۰ بود، انحراف معیار برآورد ۱ می‌شد. اگر n = ۹ بود، ۱ می‌شد. پس هم σ و هم n روی دقت برآورد اثر می‌گذارند.'
+    },
+    6: {
+      title: '✅ پاسخ صحیح: گزینه ب) نرمال',
+      body: 'وقتی داده‌ها زیاد شوند، چندبر فراوانی به منحنی نرمال شباهت پیدا می‌کند. این پدیده «قضیه حد مرکزی» نام دارد.',
+      compare: '🔍 مقایسه: اگر داده‌ها به سمت چپ یا راست چوله باشند، به منحنی چوله شباهت پیدا می‌کنند. اگر داده‌ها در همه بازه‌ها یکنواخت باشند، به منحنی یکنواخت شباهت پیدا می‌کنند.'
+    },
+    7: {
+      title: '✅ پاسخ صحیح: گزینه الف) ۱',
+      body: 'در تصویر، از ۲۰ پاره‌خط آبی، تنها یکی از آن‌ها خط سیاه عمودی (μ) را قطع نکرده است. این یعنی ۱۹ بازه از ۲۰ بازه، پارامتر واقعی را در بر گرفته‌اند.',
+      compare: '🔍 مقایسه: تعبیر ۹۵٪ این است که اگر ۱۰۰ بار نمونه‌گیری کنیم، انتظار داریم ۹۵ بازه پارامتر را در بر بگیرند. در تصویر با ۲۰ بازه، ۱۹ تا (یعنی ۹۵٪) خط μ را قطع کرده‌اند.'
+    }
+  };
+  
+  const e = explanations[qNum] || {
+    title: 'پاسخ',
+    body: 'پاسخ صحیح را با رنگ سبز ببینید.',
+    compare: '🔍 مقایسه: پاسخ صحیح را با پاسخ‌های دیگر مقایسه کنید.'
+  };
+  
+  return `<b>${e.title}</b>${e.body}<span class="compare-line">${e.compare}</span>`;
+}
+
+/* ============================================
+   SYSTEMATIC SAMPLING ANIMATION
+   ============================================ */
+const groupsGrid = document.getElementById('groupsGrid');
+const startRow = document.getElementById('startRow');
+const selectedInfo = document.getElementById('selectedInfo');
+let totalGroups = 20;
+let groupSize = 5;
+let isAnimating = false;
+
+function buildGroups(){
+  if(!groupsGrid) return;
+  groupsGrid.innerHTML = '';
+  for(let i=0; i<totalGroups; i++){
+    const box = document.createElement('div');
+    box.className = 'group-box';
+    box.dataset.groupIndex = i;
+    box.innerHTML = `
+      <div class="group-num">${toFa(i+1)}</div>
+      <div class="group-dots">
+        ${Array.from({length: groupSize}, () => '<div class="group-dot"></div>').join('')}
+      </div>
+    `;
+    groupsGrid.appendChild(box);
+  }
+}
+
+function buildStartButtons(){
+  if(!startRow) return;
+  startRow.innerHTML = '';
+  for(let i=0; i<groupSize; i++){
+    const btn = document.createElement('button');
+    btn.className = 'start-btn';
+    btn.textContent = toFa(i+1);
+    btn.onclick = () => runSystematic(i);
+    startRow.appendChild(btn);
+  }
+}
+
+async function runSystematic(startOffset){
+  if(isAnimating) return;
+  isAnimating = true;
+  
+  resetSystematic();
+  
+  // Mark start button active
+  document.querySelectorAll('.start-btn').forEach(b => b.disabled = true);
+  const btns = document.querySelectorAll('.start-btn');
+  if(btns[startOffset]) btns[startOffset].classList.add('active');
+  
+  // Mark start group
+  const startGroup = document.querySelector(`[data-group-index="0"]`);
+  if(startGroup) startGroup.classList.add('start-point');
+  
+  // Update info
+  selectedInfo.classList.add('active');
+  selectedInfo.innerHTML = `نقطه شروع تصادفی: گروه ۱ — عدد <b>${toFa(startOffset+1)}</b>`;
+  
+  await sleep(600);
+  
+  // Animate through groups
+  const selectedNumbers = [];
+  for(let g=0; g<totalGroups; g++){
+    const box = document.querySelector(`[data-group-index="${g}"]`);
+    if(!box) continue;
+    
+    if(g > 0) box.classList.add('selected');
+    
+    const dot = box.querySelectorAll('.group-dot')[startOffset];
+    if(dot){
+      dot.style.background = '#facc15';
+      dot.style.boxShadow = '0 0 12px #facc15';
+      dot.style.transform = 'scale(1.8)';
+    }
+    
+    selectedNumbers.push(toFa(startOffset + 1) + ` (گروه ${toFa(g+1)})`);
+    
+    // Update info
+    const lastFew = selectedNumbers.slice(-4).join(' • ');
+    selectedInfo.innerHTML = `در حال انتخاب... آخرین انتخاب‌ها: ${lastFew}`;
+    
+    await sleep(350);
+  }
+  
+  selectedInfo.innerHTML = `✅ ${totalGroups} انتخاب انجام شد. عدد شروع: <b>${toFa(startOffset+1)}</b> — هر ۵ نفر یک نفر از هر گروه انتخاب شد.`;
+  isAnimating = false;
+}
+
+function resetSystematic(){
+  if(!groupsGrid) return;
+  document.querySelectorAll('.group-box').forEach(b => {
+    b.classList.remove('selected', 'start-point');
+    b.querySelectorAll('.group-dot').forEach(d => {
+      d.style.background = '';
+      d.style.boxShadow = '';
+      d.style.transform = '';
+    });
+  });
+  document.querySelectorAll('.start-btn').forEach(b => {
+    b.disabled = false;
+    b.classList.remove('active');
+  });
+  selectedInfo.classList.remove('active');
+  selectedInfo.innerHTML = 'هنوز انتخابی انجام نشده است.';
+  isAnimating = false;
+}
+
+function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
+
+function toFa(n){
+  const fa = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+  return String(n).replace(/\d/g, d => fa[+d]);
+}
+
+/* ============================================
+   BACKGROUND CANVAS ANIMATION
+   ============================================ */
+(function(){
+  const canvas = document.getElementById('bgLayerCanvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H, dpr;
+
+  function resize(){
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = canvas.clientWidth;
+    H = canvas.clientHeight;
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  const particles = [];
+  const particleCount = 70;
+  const colors = ['#38bdf8', '#a78bfa', '#fb7185', '#10b981', '#facc15'];
+  for(let i=0; i<particleCount; i++){
+    particles.push({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: Math.random() * 2 + 1,
+      vx: (Math.random() - 0.5) * 0.8,
+      vy: (Math.random() - 0.5) * 0.8,
+      color: colors[Math.floor(Math.random()*colors.length)],
+      alpha: Math.random() * 0.45 + 0.2
+    });
+  }
+
+  function draw(){
+    ctx.clearRect(0, 0, W, H);
+
+    particles.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      if(p.x < 0 || p.x > W) p.vx *= -1;
+      if(p.y < 0 || p.y > H) p.vy *= -1;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = p.color;
+      ctx.globalAlpha = p.alpha;
+      ctx.fill();
+    });
+
+    ctx.globalAlpha = 0.1;
+    ctx.strokeStyle = '#38bdf8';
+    ctx.lineWidth = 0.6;
+    for(let i=0; i<particles.length; i++){
+      for(let j=i+1; j<particles.length; j++){
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if(dist < 180){
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ============================================
+   INIT
+   ============================================ */
+updateDots();
+setBackground('grid');
+buildGroups();
+buildStartButtons();
+</script>
