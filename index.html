@@ -333,3 +333,769 @@
   .selected-info b{color:var(--accent-3); font-size:1.05rem; margin:0 3px;}
 </style>
 </head>
+<body>
+
+<!-- ===== BACKGROUND LAYERS ===== -->
+<div id="bgImage"></div>
+<div id="bgLayer"></div>
+<canvas id="bgLayerCanvas"></canvas>
+
+<!-- ===== NAV ===== -->
+<nav class="nav">
+  <div class="brand">🎓 آمار استنباطی <span>| یازدهم ریاضی</span></div>
+  <div class="progress-info" id="progressInfo">صفحه ۱ از ۹</div>
+</nav>
+
+<!-- ===== PAGES ===== -->
+<div class="pages-container">
+
+  <!-- ===== PAGE 1 ===== -->
+  <section class="page active" data-page="0" data-bg="grid">
+    <div class="page-head">
+      <div class="num">۱</div>
+      <div>
+        <h2>چرا آمار استنباطی؟</h2>
+        <p>از توصیف داده‌ها تا تصمیم‌گیری درباره جامعه</p>
+      </div>
+    </div>
+
+    <div class="video-box" data-video="videos/intro.mp4">
+      <div class="label"><span class="dot"></span> ویدیوی معرفی — چرا آمار استنباطی؟</div>
+      <div class="placeholder">
+        <b>🎬 جای ویدیو</b>
+        فایل ویدیو را در پوشه <code>videos/intro.mp4</code> قرار دهید.<br>
+        یا مسیر را در <code>data-video</code> تغییر دهید.
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="concept-card good">
+        <h3>📊 آمار توصیفی</h3>
+        <p>داده‌ها را خلاصه و توصیف می‌کند. اما نمی‌تواند نتیجه را به خارج از داده‌های مشاهده‌شده تعمیم دهد.</p>
+      </div>
+      <div class="concept-card note">
+        <h3>🎯 آمار استنباطی</h3>
+        <p>بر اساس یک <b>نمونه</b>، درباره <b>پارامتر</b> جامعه نتیجه‌گیری می‌کند.</p>
+      </div>
+      <div class="concept-card warn">
+        <h3>⚠️ چرا سرشماری نه؟</h3>
+        <p>سرشماری وقت‌گیر، پرهزینه و گاهی غیرممکن است. پس ناچاریم از نمونه استفاده کنیم.</p>
+      </div>
+    </div>
+
+    <div class="next-wrap">
+      <button class="btn" onclick="goToPage(1)">ادامه یادگیری ➡</button>
+    </div>
+    <div class="progress-dots" id="dots0"></div>
+  </section>
+
+  <!-- ===== PAGE 2 ===== -->
+  <section class="page" data-page="1" data-bg="clusters">
+    <div class="page-head">
+      <div class="num">۲</div>
+      <div>
+        <h2>جامعه، نمونه و روش‌های نمونه‌گیری</h2>
+        <p>تصادفی ساده، خوشه‌ای، طبقه‌ای، سیستماتیک</p>
+      </div>
+    </div>
+
+    <div class="video-box" data-video="videos/sampling.mp4">
+      <div class="label"><span class="dot"></span> ویدیوی دوم — جامعه و نمونه</div>
+      <div class="placeholder">
+        <b>🎬 جای ویدیو</b>
+        فایل ویدیو را در پوشه <code>videos/sampling.mp4</code> قرار دهید.
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="concept-card"><h3>👥 جامعه آماری</h3><p>مجموعه کل واحدهای آماری.</p></div>
+      <div class="concept-card"><h3>🔍 نمونه</h3><p>زیرمجموعه‌ای از جامعه که با روش مشخص انتخاب می‌شود.</p></div>
+      <div class="concept-card note"><h3>🎲 نمونه‌گیری</h3><p>فرایند انتخاب نمونه برای تعمیم اطلاعات به جامعه.</p></div>
+    </div>
+
+    <table class="compare-table">
+      <thead><tr><th>روش</th><th>ویژگی کلیدی</th><th>مثال</th></tr></thead>
+      <tbody>
+        <tr><td style="color:#38bdf8; font-weight:800;">تصادفی ساده</td><td>همه شانس برابر دارند</td><td>قرعه‌کشی ۵ نفر از ۲۰ نفر</td></tr>
+        <tr><td style="color:#a78bfa; font-weight:800;">خوشه‌ای</td><td>انتخاب چند خوشه، بررسی <b>همه</b> اعضا</td><td>۵ مدرسه از ۲۰ مدرسه</td></tr>
+        <tr><td style="color:#10b981; font-weight:800;">طبقه‌ای</td><td>تقسیم به طبقات همگن، نمونه از هر طبقه</td><td>دختر/پسر و نمونه از هر گروه</td></tr>
+        <tr><td style="color:#facc15; font-weight:800;">سیستماتیک</td><td>فواصل ثابت، شروع تصادفی</td><td>هر ۵ نفر یک نفر از ۱۰۰ نفر</td></tr>
+      </tbody>
+    </table>
+
+    <div class="next-wrap">
+      <button class="btn ghost" onclick="goToPage(0)">⬅ بازگشت</button>
+      <button class="btn" onclick="goToPage(2)">ادامه یادگیری ➡</button>
+    </div>
+    <div class="progress-dots" id="dots1"></div>
+  </section>
+
+  <!-- ===== PAGE 3: Systematic Sampling ===== -->
+  <section class="page" data-page="2" data-bg="grid">
+    <div class="page-head">
+      <div class="num">۳</div>
+      <div>
+        <h2>آزمایشگاه نمونه‌گیری سیستماتیک</h2>
+        <p>روی یکی از ۴ مستطیل کلیک کنید تا انتخاب زنده را ببینید</p>
+      </div>
+    </div>
+
+    <div class="concept-card note" style="margin-bottom:16px;">
+      <h3>📌 نمونه‌گیری سیستماتیک</h3>
+      <p>۱۰۰ نفر در ۲۰ گروه ۵ نفره. یک نقطه شروع تصادفی انتخاب می‌شود و سپس هر ۵ نفر یکی وارد نمونه می‌شود. روی یکی از اعداد شروع کلیک کنید.</p>
+    </div>
+
+    <div class="systematic-container">
+      <div class="groups-grid" id="groupsGrid"></div>
+      <div class="start-buttons">
+        <p style="color:#94a3b8; font-size:.85rem; margin-bottom:10px;">یک نقطه شروع انتخاب کنید:</p>
+        <div class="start-row" id="startRow"></div>
+      </div>
+      <div class="selected-info" id="selectedInfo">
+        <p>هنوز انتخابی انجام نشده است.</p>
+      </div>
+    </div>
+
+    <div class="next-wrap">
+      <button class="btn ghost" onclick="resetSystematic()">🔄 شروع مجدد</button>
+      <button class="btn ghost" onclick="goToPage(1)">⬅ بازگشت</button>
+      <button class="btn" onclick="goToPage(3)">ادامه یادگیری ➡</button>
+    </div>
+    <div class="progress-dots" id="dots2"></div>
+  </section>
+
+  <!-- ===== PAGE 4 ===== -->
+  <section class="page" data-page="3" data-bg="bias">
+    <div class="page-head">
+      <div class="num">۴</div>
+      <div>
+        <h2>اریب بودن (Bias)</h2>
+        <p>وقتی نمونه‌گیری اشتباه می‌شود</p>
+      </div>
+    </div>
+
+    <div class="video-box" data-video="videos/bias.mp4">
+      <div class="label"><span class="dot"></span> ویدیوی سوم — اریب و مثال‌های واقعی</div>
+      <div class="placeholder">
+        <b>🎬 جای ویدیو</b>
+        فایل ویدیو را در پوشه <code>videos/bias.mp4</code> قرار دهید.
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="concept-card warn">
+        <h3>🚗 مثال ۱: طرح ترافیک</h3>
+        <p>نمونه از محدوده طرح ترافیک ← اکثراً از وسایل نقلیه عمومی استفاده می‌کنند. نتیجه اریب می‌شود.</p>
+      </div>
+      <div class="concept-card warn">
+        <h3>🏠 مثال ۲: خانواده‌های روستا</h3>
+        <p>خانواده‌های پرجمعیت شانس بیشتری برای انتخاب دارند. بعد خانوار بیشتر از واقعیت برآورد می‌شود.</p>
+      </div>
+      <div class="concept-card warn">
+        <h3>🎓 مثال ۳: مدرسه</h3>
+        <p>کلاس‌های پرجمعیت‌تر شانس بیشتری دارند و نتیجه اریب می‌شود.</p>
+      </div>
+      <div class="concept-card good">
+        <h3>✅ راه‌حل</h3>
+        <p>در روستا: فقط یک نفر از هر خانواده. در مدرسه: تعداد برابر از هر کلاس.</p>
+      </div>
+    </div>
+
+    <div class="formula-box">
+      <span class="label">تعبیر اریب</span>
+      اریب = انحراف مقدار برآورد از مقدار واقعی پارامتر جامعه
+    </div>
+
+    <div class="next-wrap">
+      <button class="btn ghost" onclick="goToPage(2)">⬅ بازگشت</button>
+      <button class="btn" onclick="goToPage(4)">ادامه یادگیری ➡</button>
+    </div>
+    <div class="progress-dots" id="dots3"></div>
+  </section>
+
+  <!-- ===== PAGE 5 ===== -->
+  <section class="page" data-page="4" data-bg="estimation">
+    <div class="page-head">
+      <div class="num">۵</div>
+      <div>
+        <h2>پارامتر، آماره و برآورد</h2>
+        <p>برآورد نقطه‌ای و بازه‌ای</p>
+      </div>
+    </div>
+
+    <div class="video-box" data-video="videos/estimation.mp4">
+      <div class="label"><span class="dot"></span> ویدیوی چهارم — برآورد</div>
+      <div class="placeholder">
+        <b>🎬 جای ویدیو</b>
+        فایل ویدیو را در پوشه <code>videos/estimation.mp4</code> قرار دهید.
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="concept-card"><h3>🔒 پارامتر</h3><p>مشخصه عددی <b>جامعه</b>. ثابت ولی مجهول. مثل μ.</p></div>
+      <div class="concept-card"><h3>📊 آماره</h3><p>مشخصه عددی <b>نمونه</b>. متغیر. مثل x̄.</p></div>
+    </div>
+
+    <div style="text-align:center; margin:16px 0;">
+      <img src="images/parameter-vs-statistic.png" alt="چرخه پارامتر و آماره" style="max-width:100%; border-radius:12px; border:1px solid rgba(148,163,184,.2);">
+      <p style="font-size:.78rem; color:#94a3b8; margin-top:8px;">چرخه استنباط آماری — صفحه ۲۸ جزوه</p>
+    </div>
+
+    <h3 style="color:#f1f5f9; margin-top:20px;">برآورد نقطه‌ای و توزیع آماره</h3>
+    <p style="color:var(--text-dim); font-size:.85rem;">با افزایش حجم نمونه، توزیع آماره باریک‌تر و برآورد دقیق‌تر می‌شود.</p>
+
+    <div class="grid-2">
+      <div style="text-align:center;">
+        <img src="images/distribution-1.png" alt="توزیع آماره تک‌عضوی" style="max-width:100%; border-radius:12px; border:1px solid rgba(148,163,184,.2);">
+        <p style="font-size:.75rem; color:#94a3b8; margin-top:6px;">نمونه‌های تک‌عضوی</p>
+      </div>
+      <div style="text-align:center;">
+        <img src="images/distribution-2.png" alt="توزیع آماره دو‌عضوی" style="max-width:100%; border-radius:12px; border:1px solid rgba(148,163,184,.2);">
+        <p style="font-size:.75rem; color:#94a3b8; margin-top:6px;">نمونه‌های دو‌عضوی</p>
+      </div>
+      <div style="text-align:center;">
+        <img src="images/distribution-3.png" alt="توزیع آماره سه‌عضوی" style="max-width:100%; border-radius:12px; border:1px solid rgba(148,163,184,.2);">
+        <p style="font-size:.75rem; color:#94a3b8; margin-top:6px;">نمونه‌های سه‌عضوی</p>
+      </div>
+      <div style="text-align:center;">
+        <img src="images/distribution-4.png" alt="توزیع آماره چهار‌عضوی" style="max-width:100%; border-radius:12px; border:1px solid rgba(148,163,184,.2);">
+        <p style="font-size:.75rem; color:#94a3b8; margin-top:6px;">نمونه‌های چهار‌عضوی</p>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin:16px 0;">
+      <img src="images/distribution-5.png" alt="توزیع آماره پنج‌عضوی" style="max-width:100%; border-radius:12px; border:1px solid rgba(148,163,184,.2);">
+      <p style="font-size:.78rem; color:#94a3b8; margin-top:8px;">نمونه‌های پنج‌عضوی — برآورد دقیق‌تر (صفحه ۴۱)</p>
+    </div>
+
+    <div class="formula-box">
+      <span class="label">انحراف معیار میانگین (برآورد)</span>
+      σ<sub>x̄</sub> = σ / √n
+    </div>
+
+    <div class="next-wrap">
+      <button class="btn ghost" onclick="goToPage(3)">⬅ بازگشت</button>
+      <button class="btn" onclick="goToPage(5)">ادامه یادگیری ➡</button>
+    </div>
+    <div class="progress-dots" id="dots4"></div>
+  </section>
+
+  <!-- ===== PAGE 6: شکل توزیع ===== -->
+  <section class="page" data-page="5" data-bg="estimation">
+    <div class="page-head">
+      <div class="num">۶</div>
+      <div>
+        <h2>شکل توزیع داده‌ها</h2>
+        <p>از بافت‌نگاشت تا منحنی نرمال</p>
+      </div>
+    </div>
+
+    <div class="concept-card note" style="margin-bottom:16px;">
+      <h3>📊 بافت‌نگاشت و چندبر فراوانی</h3>
+      <p>وقتی داده‌های نمرات ۲۴ دانش‌آموز را در بازه‌های مساوی نمایش می‌دهیم، بافت‌نگاشت زیر به دست می‌آید. با اتصال وسط مستطیل‌ها، چندبر فراوانی رسم می‌شود.</p>
+    </div>
+
+    <div style="text-align:center; margin:16px 0;">
+      <img src="images/histogram-grades.png" alt="بافت‌نگاشت نمرات" style="max-width:100%; border-radius:12px; border:1px solid rgba(148,163,184,.2);">
+      <p style="font-size:.78rem; color:#94a3b8; margin-top:8px;">بافت‌نگاشت فراوانی نمرات (صفحه ۵۰)</p>
+    </div>
+
+    <div style="text-align:center; margin:16px 0;">
+      <img src="images/ogive-grades.png" alt="چندبر فراوانی" style="max-width:100%; border-radius:12px; border:1px solid rgba(148,163,184,.2);">
+      <p style="font-size:.78rem; color:#94a3b8; margin-top:8px;">چندبر فراوانی — خط قهوه‌ای (صفحه ۵۰)</p>
+    </div>
+
+    <h3 style="color:#f1f5f9; margin-top:24px;">انواع شکل توزیع</h3>
+    <div class="grid-3">
+      <div style="text-align:center;">
+        <img src="images/uniform.png" alt="منحنی یکنواخت" style="max-width:100%; border-radius:12px; border:1px solid rgba(148,163,184,.2);">
+        <p style="font-size:.8rem; color:#38bdf8; margin-top:6px; font-weight:800;">یکنواخت</p>
+      </div>
+      <div style="text-align:center;">
+        <img src="images/normal.png" alt="منحنی نرمال" style="max-width:100%; border-radius:12px; border:1px solid rgba(148,163,184,.2);">
+        <p style="font-size:.8rem; color:#10b981; margin-top:6px; font-weight:800;">نرمال</p>
+      </div>
+      <div style="text-align:center;">
+        <img src="images/skewed.png" alt="منحنی چوله" style="max-width:100%; border-radius:12px; border:1px solid rgba(148,163,184,.2);">
+        <p style="font-size:.8rem; color:#fb7185; margin-top:6px; font-weight:800;">چوله (نامتقارن)</p>
+      </div>
+    </div>
+
+    <div class="exercise" data-correct="1" style="margin-top:20px;">
+      <div class="q-side">
+        <h3>❓ اگر داده‌ها زیاد شوند، چندبر فراوانی به کدام نمودار شبیه‌تر می‌شود؟</h3>
+        <div class="options">
+          <button class="option" data-i="0">یکنواخت</button>
+          <button class="option" data-i="1">نرمال</button>
+          <button class="option" data-i="2">چوله</button>
+          <button class="option" data-i="3">هیچ‌کدام</button>
+        </div>
+      </div>
+      <div class="img-side">
+        <img src="images/normal.png" alt="منحنی نرمال">
+      </div>
+      <div class="explain"></div>
+    </div>
+
+    <div class="next-wrap">
+      <button class="btn ghost" onclick="goToPage(4)">⬅ بازگشت</button>
+      <button class="btn" onclick="goToPage(6)">ادامه یادگیری ➡</button>
+    </div>
+    <div class="progress-dots" id="dots5"></div>
+  </section>
+
+  <!-- ===== PAGE 7: بازه اطمینان ===== -->
+  <section class="page" data-page="6" data-bg="summary">
+    <div class="page-head">
+      <div class="num">۷</div>
+      <div>
+        <h2>بازه اطمینان</h2>
+        <p>تعبیر شهودی ۹۵٪</p>
+      </div>
+    </div>
+
+    <div class="video-box" data-video="videos/confidence.mp4">
+      <div class="label"><span class="dot"></span> ویدیوی پنجم — بازه اطمینان</div>
+      <div class="placeholder">
+        <b>🎬 جای ویدیو</b>
+        فایل ویدیو را در پوشه <code>videos/confidence.mp4</code> قرار دهید.
+      </div>
+    </div>
+
+    <div class="formula-box">
+      <span class="label">بازه اطمینان ۹۵٪ برای میانگین جامعه</span>
+      x̄ − (2σ / √n) ≤ μ ≤ x̄ + (2σ / √n)
+    </div>
+
+    <div class="grid-2">
+      <div class="concept-card good"><h3>📈 افزایش n</h3><p>بازه باریک‌تر، برآورد دقیق‌تر.</p></div>
+      <div class="concept-card warn"><h3>📉 افزایش σ</h3><p>بازه پهن‌تر، برآورد کم‌دقت‌تر.</p></div>
+    </div>
+
+    <div style="text-align:center; margin:16px 0;">
+      <img src="images/means-distribution.png" alt="توزیع میانگین‌ها" style="max-width:100%; border-radius:12px; border:1px solid rgba(148,163,184,.2);">
+      <p style="font-size:.78rem; color:#94a3b8; margin-top:8px;">توزیع میانگین‌های نمونه‌ها حول میانگین جامعه μ (صفحه ۵۰)</p>
+    </div>
+
+    <div style="text-align:center; margin:16px 0;">
+      <img src="images/confidence-interval.png" alt="پاره‌خط‌های بازه اطمینان" style="max-width:100%; border-radius:12px; border:1px solid rgba(148,163,184,.2);">
+      <p style="font-size:.78rem; color:#94a3b8; margin-top:8px;">۲۰ بازه اطمینان ۹۵٪ — ۱۹ تا خط μ را قطع کرده‌اند (صفحه ۵۱)</p>
+    </div>
+
+    <div class="exercise" data-correct="0" style="margin-top:20px;">
+      <div class="q-side">
+        <h3>❓ در تصویر بالا، چند پاره‌خط آبی خط سیاه (μ) را قطع نکرده‌اند؟</h3>
+        <div class="options">
+          <button class="option" data-i="0">۱</button>
+          <button class="option" data-i="1">۲</button>
+          <button class="option" data-i="2">۵</button>
+          <button class="option" data-i="3">۱۹</button>
+        </div>
+      </div>
+      <div class="img-side">
+        <img src="images/confidence-interval.png" alt="بازه‌های اطمینان">
+      </div>
+      <div class="explain"></div>
+    </div>
+
+    <div class="next-wrap">
+      <button class="btn ghost" onclick="goToPage(5)">⬅ بازگشت</button>
+      <button class="btn" onclick="goToPage(7)">ادامه یادگیری ➡</button>
+    </div>
+    <div class="progress-dots" id="dots6"></div>
+  </section>
+
+  <!-- ===== PAGE 8: تمرین‌ها ===== -->
+  <section class="page" data-page="7" data-bg="quiz">
+    <div class="page-head">
+      <div class="num">۸</div>
+      <div>
+        <h2>تمرین‌های تعاملی</h2>
+        <p>دانش خود را محک بزنید</p>
+      </div>
+    </div>
+
+    <div class="exercise" data-correct="1">
+      <div class="q-side">
+        <h3>۱. احتمال انتخاب هر فرد در نمونه‌گیری تصادفی ساده؟</h3>
+        <div class="options">
+          <button class="option" data-i="0">N / k</button>
+          <button class="option" data-i="1">k / N</button>
+          <button class="option" data-i="2">N − k</button>
+          <button class="option" data-i="3">1 / N</button>
+        </div>
+      </div>
+      <div class="img-side"><div style="text-align:center; color:#94a3b8;"><div style="font-size:3rem;">🎲</div><p>قرعه‌کشی از میان N واحد</p></div></div>
+      <div class="explain"></div>
+    </div>
+
+    <div class="exercise" data-correct="2">
+      <div class="q-side">
+        <h3>۲. نمونه از یک دانشگاه خاص ← چه مشکلی؟</h3>
+        <div class="options">
+          <button class="option" data-i="0">حجم نمونه کم است</button>
+          <button class="option" data-i="1">داده‌ها دقیق نیستند</button>
+          <button class="option" data-i="2">نمونه اریب می‌شود</button>
+          <button class="option" data-i="3">هیچ مشکلی نیست</button>
+        </div>
+      </div>
+      <div class="img-side"><div style="text-align:center; color:#94a3b8;"><div style="font-size:3rem;">🏛️</div><p>فقط یک دانشگاه از شهر</p></div></div>
+      <div class="explain"></div>
+    </div>
+
+    <div class="exercise" data-correct="1">
+      <div class="q-side">
+        <h3>۳. اگر اندازه نمونه ۴ برابر شود، انحراف معیار برآورد؟</h3>
+        <div class="options">
+          <button class="option" data-i="0">۴ برابر</button>
+          <button class="option" data-i="1">نصف</button>
+          <button class="option" data-i="2">۲ برابر</button>
+          <button class="option" data-i="3">تغییری نمی‌کند</button>
+        </div>
+      </div>
+      <div class="img-side"><div style="text-align:center; color:#94a3b8;"><div style="font-size:3rem;">📉</div><p>σ<sub>x̄</sub> = σ / √n</p></div></div>
+      <div class="explain"></div>
+    </div>
+
+    <div class="exercise" data-correct="3">
+      <div class="q-side">
+        <h3>۴. کدام روش برای جامعه طبقه‌بندی‌شده مناسب‌تر است؟</h3>
+        <div class="options">
+          <button class="option" data-i="0">تصادفی ساده</button>
+          <button class="option" data-i="1">خوشه‌ای</button>
+          <button class="option" data-i="2">سیستماتیک</button>
+          <button class="option" data-i="3">طبقه‌ای</button>
+        </div>
+      </div>
+      <div class="img-side"><div style="text-align:center; color:#94a3b8;"><div style="font-size:3rem;">📊</div><p>طبقات همگن</p></div></div>
+      <div class="explain"></div>
+    </div>
+
+    <div class="exercise" data-correct="2">
+      <div class="q-side">
+        <h3>۵. σ = ۳ و n = ۹۰۰ ← انحراف معیار برآورد؟</h3>
+        <div class="options">
+          <button class="option" data-i="0">۳</button>
+          <button class="option" data-i="1">۰٫۳</button>
+          <button class="option" data-i="2">۰٫۱</button>
+          <button class="option" data-i="3">۰٫۰۱</button>
+        </div>
+      </div>
+      <div class="img-side"><div style="text-align:center; color:#94a3b8;"><div style="font-size:3rem;">🧮</div><p>σ<sub>x̄</sub> = ۳ / √۹۰۰</p></div></div>
+      <div class="explain"></div>
+    </div>
+
+    <div class="next-wrap">
+      <button class="btn ghost" onclick="goToPage(6)">⬅ بازگشت</button>
+      <button class="btn" onclick="goToPage(8)">ادامه یادگیری ➡</button>
+    </div>
+    <div class="progress-dots" id="dots7"></div>
+  </section>
+
+  <!-- ===== PAGE 9: جمع‌بندی ===== -->
+  <section class="page" data-page="8" data-bg="summary">
+    <div class="page-head">
+      <div class="num">۹</div>
+      <div>
+        <h2>جمع‌بندی</h2>
+        <p>آنچه یاد گرفتیم</p>
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="concept-card good"><h3>✅ نمونه‌گیری درست</h3><p>تصادفی، خوشه‌ای، طبقه‌ای، سیستماتیک</p></div>
+      <div class="concept-card note"><h3>✅ برآورد</h3><p>نقطه‌ای و بازه‌ای</p></div>
+      <div class="concept-card"><h3>✅ پرهیز از اریب</h3><p>شناسایی منابع سوگیری</p></div>
+    </div>
+
+    <div class="formula-box">
+      <span class="label">مثال حل‌شده</span>
+      x̄ = 22, σ = 2, n = 25 → بازه: 21.2 تا 22.8
+    </div>
+
+    <div class="next-wrap">
+      <button class="btn ghost" onclick="goToPage(7)">⬅ بازگشت</button>
+      <button class="btn" onclick="goToPage(0)">🔄 شروع دوباره</button>
+    </div>
+    <div class="progress-dots" id="dots8"></div>
+  </section>
+
+</div>
+
+<script>
+/* ===== BACKGROUND TEMPLATES ===== */
+const bgTemplates = {
+  grid: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="bgG1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0b1220"/><stop offset="100%" stop-color="#1e293b"/></linearGradient><pattern id="gridP" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="#38bdf8" stroke-width="0.5" opacity="0.15"/></pattern></defs><rect width="1200" height="800" fill="url(#bgG1)"/><rect width="1200" height="800" fill="url(#gridP)"/><circle cx="200" cy="200" r="180" fill="#38bdf8" opacity="0.04"/><circle cx="1000" cy="600" r="220" fill="#a78bfa" opacity="0.05"/></svg>`,
+  clusters: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="bgG2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0b1220"/><stop offset="100%" stop-color="#1e1b4b"/></linearGradient></defs><rect width="1200" height="800" fill="url(#bgG2)"/><g opacity="0.15"><circle cx="200" cy="200" r="100" fill="none" stroke="#38bdf8" stroke-width="2" stroke-dasharray="6 4"/><circle cx="500" cy="300" r="120" fill="none" stroke="#a78bfa" stroke-width="2" stroke-dasharray="6 4"/><circle cx="850" cy="200" r="90" fill="none" stroke="#10b981" stroke-width="2" stroke-dasharray="6 4"/><circle cx="300" cy="600" r="110" fill="none" stroke="#fb7185" stroke-width="2" stroke-dasharray="6 4"/><circle cx="750" cy="600" r="130" fill="none" stroke="#facc15" stroke-width="2" stroke-dasharray="6 4"/></g></svg>`,
+  bias: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="bgG3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1a0b0b"/><stop offset="100%" stop-color="#0b1220"/></linearGradient></defs><rect width="1200" height="800" fill="url(#bgG3)"/><path d="M 100 600 Q 400 200 600 400 Q 800 600 1100 600" fill="none" stroke="#fb7185" stroke-width="2" opacity="0.25"/></svg>`,
+  estimation: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="bgG4" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0b1a1a"/><stop offset="100%" stop-color="#0b1220"/></linearGradient></defs><rect width="1200" height="800" fill="url(#bgG4)"/><path d="M 100 600 Q 400 100 600 100 Q 800 100 1100 600" fill="none" stroke="#10b981" stroke-width="2.5" opacity="0.35"/><line x1="600" y1="200" x2="600" y2="600" stroke="#a7f3d0" stroke-width="1" stroke-dasharray="6 4" opacity="0.3"/></svg>`,
+  quiz: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="bgG5" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1a150b"/><stop offset="100%" stop-color="#0b1220"/></linearGradient></defs><rect width="1200" height="800" fill="url(#bgG5)"/><g fill="#facc15" opacity="0.06" font-family="Georgia" font-size="120" font-weight="bold"><text x="150" y="250">?</text><text x="500" y="450">?</text><text x="850" y="200">?</text><text x="1050" y="600">?</text></g></svg>`,
+  summary: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="bgG6" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0b1220"/><stop offset="100%" stop-color="#1e1b4b"/></linearGradient></defs><rect width="1200" height="800" fill="url(#bgG6)"/><g stroke="#38bdf8" stroke-width="1" opacity="0.25" fill="none"><path d="M 200 200 L 400 300 L 600 250 L 800 350 L 1000 300"/><path d="M 300 500 L 500 450 L 700 550 L 900 500"/></g><g fill="#38bdf8" opacity="0.5"><circle cx="200" cy="200" r="4"/><circle cx="400" cy="300" r="4"/><circle cx="600" cy="250" r="4"/><circle cx="800" cy="350" r="4"/><circle cx="1000" cy="300" r="4"/><circle cx="300" cy="500" r="4"/><circle cx="500" cy="450" r="4"/><circle cx="700" cy="550" r="4"/><circle cx="900" cy="500" r="4"/></g></svg>`
+};
+
+/* ===== NAVIGATION ===== */
+const pages = document.querySelectorAll('.page');
+const totalPages = pages.length;
+let currentPage = 0;
+
+function setBackground(type){
+  const layer = document.getElementById('bgLayer');
+  if(!layer || !bgTemplates[type]) return;
+  layer.style.opacity = '0';
+  setTimeout(() => {
+    layer.innerHTML = bgTemplates[type];
+    layer.style.opacity = '1';
+  }, 250);
+}
+
+function goToPage(index){
+  if(index < 0 || index >= totalPages) return;
+  pages.forEach(p => p.classList.remove('active'));
+  pages[index].classList.add('active');
+  currentPage = index;
+  const info = document.getElementById('progressInfo');
+  if(info) info.textContent = `صفحه ${toFa(index+1)} از ${toFa(totalPages)}`;
+  const bgType = pages[index].getAttribute('data-bg') || 'grid';
+  setBackground(bgType);
+  updateDots();
+  pages[index].scrollTop = 0;
+}
+
+function updateDots(){
+  for(let i=0; i<totalPages; i++){
+    const container = document.getElementById('dots'+i);
+    if(!container) continue;
+    let html = '';
+    for(let j=0; j<totalPages; j++){
+      let cls = 'dot';
+      if(j === currentPage) cls += ' active';
+      else if(j < currentPage) cls += ' done';
+      html += `<div class="${cls}" onclick="goToPage(${j})"></div>`;
+    }
+    container.innerHTML = html;
+  }
+}
+
+/* ===== VIDEO ===== */
+document.querySelectorAll('.video-box').forEach(box => {
+  const src = box.getAttribute('data-video');
+  if(!src) return;
+  const placeholder = box.querySelector('.placeholder');
+  if(!placeholder) return;
+  const video = document.createElement('video');
+  video.controls = true;
+  video.preload = 'metadata';
+  video.setAttribute('playsinline', '');
+  const source = document.createElement('source');
+  source.src = src;
+  source.type = 'video/mp4';
+  video.appendChild(source);
+  video.addEventListener('loadedmetadata', () => { placeholder.replaceWith(video); });
+  video.load();
+});
+
+/* ===== EXERCISES ===== */
+document.querySelectorAll('.exercise').forEach(ex => {
+  const correct = parseInt(ex.getAttribute('data-correct'), 10);
+  const options = ex.querySelectorAll('.option');
+  const explain = ex.querySelector('.explain');
+  options.forEach(opt => {
+    opt.addEventListener('click', () => {
+      if(ex.dataset.answered === '1') return;
+      ex.dataset.answered = '1';
+      const chosen = parseInt(opt.getAttribute('data-i'), 10);
+      options.forEach(o => {
+        o.disabled = true;
+        const i = parseInt(o.getAttribute('data-i'), 10);
+        if(i === correct) o.classList.add('correct');
+      });
+      const isCorrect = chosen === correct;
+      if(!isCorrect) opt.classList.add('wrong');
+      explain.className = 'explain show ' + (isCorrect ? 'ok' : 'no');
+      explain.innerHTML = buildExplanation(ex, correct);
+    });
+  });
+});
+
+function buildExplanation(ex, correct){
+  const all = Array.from(document.querySelectorAll('.exercise'));
+  const qNum = all.indexOf(ex) + 1;
+  const exps = {
+    1: {title:'✅ پاسخ صحیح: گزینه ب) k / N', body:'در نمونه‌گیری تصادفی ساده، هر واحد شانس یکسانی دارد که برابر نسبت تعداد نمونه (k) به تعداد کل جامعه (N) است.', compare:'🔍 مقایسه: اگر سوال درباره طبقه‌ای بود، پاسخ متفاوت می‌شد چون احتمال انتخاب بین طبقات ممکن است متفاوت باشد.'},
+    2: {title:'✅ پاسخ صحیح: گزینه پ) نمونه اریب می‌شود', body:'نمونه از یک دانشگاه خاص نماینده کل دانشجویان شهر نیست. این نمونه‌گیری غیراحتمالی است.', compare:'🔍 مقایسه: اگر از هر دانشگاه به نسبت تعداد دانشجویانش نمونه می‌گرفتیم، نتیجه اریب نمی‌شد. مثال طرح ترافیک هم همین مشکل را دارد.'},
+    3: {title:'✅ پاسخ صحیح: گزینه ب) نصف', body:'σ_x̄ = σ / √n. اگر n چهار برابر شود، √n دو برابر و σ_x̄ نصف می‌شود.', compare:'🔍 مقایسه: اگر n دو برابر می‌شد، انحراف معیار ۱/√۲ برابر می‌شد. اگر σ دو برابر می‌شد، انحراف معیار برآورد هم دو برابر می‌شد.'},
+    4: {title:'✅ پاسخ صحیح: گزینه ت) طبقه‌ای', body:'وقتی جامعه به طبقات همگن تقسیم می‌شود، نمونه‌گیری طبقه‌ای بهترین گزینه است.', compare:'🔍 مقایسه: اگر جامعه به خوشه‌های همگن تقسیم می‌شد، خوشه‌ای مناسب‌تر بود. تفاوت: در طبقه‌ای تفاوت بین طبقات زیاد است، در خوشه‌ای شباهت بین خوشه‌ها.'},
+    5: {title:'✅ پاسخ صحیح: گزینه پ) ۰٫۱', body:'σ = ۳، n = ۹۰۰، √n = ۳۰، σ_x̄ = ۳/۳۰ = ۰٫۱.', compare:'🔍 مقایسه: اگر σ = ۳۰ بود، ۱ می‌شد. اگر n = ۹ بود، ۱ می‌شد. پس σ و n هر دو اثر می‌گذارند.'},
+    6: {title:'✅ پاسخ صحیح: گزینه ب) نرمال', body:'با افزایش داده‌ها، چندبر فراوانی به منحنی نرمال شباهت پیدا می‌کند (قضیه حد مرکزی).', compare:'🔍 مقایسه: اگر داده‌ها چوله بودند، به منحنی چوله شباهت پیدا می‌کردند. اگر یکنواخت بودند، به منحنی یکنواخت.'},
+    7: {title:'✅ پاسخ صحیح: گزینه الف) ۱', body:'از ۲۰ پاره‌خط آبی، تنها یکی خط μ را قطع نکرده. یعنی ۱۹ بازه پارامتر را در بر گرفته‌اند.', compare:'🔍 مقایسه: تعبیر ۹۵٪ این است که اگر ۱۰۰ بار نمونه‌گیری کنیم، ۹۵ بازه پارامتر را در بر می‌گیرند. در ۲۰ بازه، ۱۹ تا (۹۵٪) خط μ را قطع کرده‌اند.'}
+  };
+  const e = exps[qNum] || {title:'پاسخ', body:'', compare:''};
+  return `<b>${e.title}</b>${e.body}<span class="compare-line">${e.compare}</span>`;
+}
+
+/* ===== SYSTEMATIC SAMPLING ===== */
+let isAnimating = false;
+function buildGroups(){
+  const grid = document.getElementById('groupsGrid');
+  if(!grid) return;
+  grid.innerHTML = '';
+  for(let i=0; i<20; i++){
+    const box = document.createElement('div');
+    box.className = 'group-box';
+    box.dataset.groupIndex = i;
+    let dotsHtml = '';
+    for(let d=0; d<5; d++) dotsHtml += '<div class="group-dot"></div>';
+    box.innerHTML = `<div class="group-num">${toFa(i+1)}</div><div class="group-dots">${dotsHtml}</div>`;
+    grid.appendChild(box);
+  }
+}
+
+function buildStartButtons(){
+  const row = document.getElementById('startRow');
+  if(!row) return;
+  row.innerHTML = '';
+  for(let i=0; i<5; i++){
+    const btn = document.createElement('button');
+    btn.className = 'start-btn';
+    btn.textContent = toFa(i+1);
+    btn.onclick = () => runSystematic(i);
+    row.appendChild(btn);
+  }
+}
+
+async function runSystematic(startOffset){
+  if(isAnimating) return;
+  isAnimating = true;
+  resetSystematic();
+  document.querySelectorAll('.start-btn').forEach(b => b.disabled = true);
+  const btns = document.querySelectorAll('.start-btn');
+  if(btns[startOffset]) btns[startOffset].classList.add('active');
+  const startGroup = document.querySelector('[data-group-index="0"]');
+  if(startGroup) startGroup.classList.add('start-point');
+  const info = document.getElementById('selectedInfo');
+  if(info){
+    info.classList.add('active');
+    info.innerHTML = `نقطه شروع تصادفی: گروه ۱ — عدد <b>${toFa(startOffset+1)}</b>`;
+  }
+  await sleep(600);
+  for(let g=0; g<20; g++){
+    const box = document.querySelector(`[data-group-index="${g}"]`);
+    if(!box) continue;
+    if(g > 0) box.classList.add('selected');
+    const dot = box.querySelectorAll('.group-dot')[startOffset];
+    if(dot){
+      dot.style.background = '#facc15';
+      dot.style.boxShadow = '0 0 12px #facc15';
+      dot.style.transform = 'scale(1.8)';
+    }
+    if(info){
+      if(g % 3 === 0 || g === 19){
+        info.innerHTML = `در حال انتخاب... گروه ${toFa(g+1)} از ۲۰`;
+      }
+    }
+    await sleep(280);
+  }
+  if(info) info.innerHTML = `✅ ۲۰ انتخاب انجام شد. عدد شروع: <b>${toFa(startOffset+1)}</b> — هر ۵ نفر یک نفر انتخاب شد.`;
+  isAnimating = false;
+}
+
+function resetSystematic(){
+  document.querySelectorAll('.group-box').forEach(b => {
+    b.classList.remove('selected', 'start-point');
+    b.querySelectorAll('.group-dot').forEach(d => {
+      d.style.background = '';
+      d.style.boxShadow = '';
+      d.style.transform = '';
+    });
+  });
+  document.querySelectorAll('.start-btn').forEach(b => {
+    b.disabled = false;
+    b.classList.remove('active');
+  });
+  const info = document.getElementById('selectedInfo');
+  if(info){
+    info.classList.remove('active');
+    info.innerHTML = 'هنوز انتخابی انجام نشده است.';
+  }
+  isAnimating = false;
+}
+
+function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
+function toFa(n){
+  const fa = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+  return String(n).replace(/\d/g, d => fa[+d]);
+}
+
+/* ===== BACKGROUND CANVAS ===== */
+(function(){
+  const canvas = document.getElementById('bgLayerCanvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H, dpr;
+  function resize(){
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = canvas.clientWidth;
+    H = canvas.clientHeight;
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  window.addEventListener('resize', resize);
+  resize();
+  const particles = [];
+  const colors = ['#38bdf8', '#a78bfa', '#fb7185', '#10b981', '#facc15'];
+  for(let i=0; i<70; i++){
+    particles.push({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: Math.random() * 2 + 1,
+      vx: (Math.random() - 0.5) * 0.8,
+      vy: (Math.random() - 0.5) * 0.8,
+      color: colors[Math.floor(Math.random()*colors.length)],
+      alpha: Math.random() * 0.45 + 0.2
+    });
+  }
+  function draw(){
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      if(p.x < 0 || p.x > W) p.vx *= -1;
+      if(p.y < 0 || p.y > H) p.vy *= -1;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = p.color;
+      ctx.globalAlpha = p.alpha;
+      ctx.fill();
+    });
+    ctx.globalAlpha = 0.1;
+    ctx.strokeStyle = '#38bdf8';
+    ctx.lineWidth = 0.6;
+    for(let i=0; i<particles.length; i++){
+      for(let j=i+1; j<particles.length; j++){
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if(dist < 180){
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ===== INIT ===== */
+updateDots();
+setBackground('grid');
+buildGroups();
+buildStartButtons();
+</script>
+
+</body>
+</html>
