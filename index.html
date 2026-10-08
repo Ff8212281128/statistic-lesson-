@@ -706,91 +706,185 @@
   </section>
 
   <!-- ===== PAGE 8: تمرین‌ها ===== -->
-  <section class="page" data-page="7" data-bg="quiz">
-    <div class="page-head">
-      <div class="num">۸</div>
-      <div>
-        <h2>تمرین‌های تعاملی</h2>
-        <p>دانش خود را محک بزنید</p>
+<!-- ===== PAGE 8: تمرین‌ها ===== -->
+<section class="page" data-page="7" data-bg="quiz">
+  <div class="page-head">
+    <div class="num">۸</div>
+    <div>
+      <h2>تمرین‌های تعاملی</h2>
+      <p>دانش خود را محک بزنید</p>
+    </div>
+  </div>
+
+  <!-- Exercise 1: Random Sampling -->
+  <div class="exercise" data-correct="1">
+    <div class="q-side">
+      <h3>۱. احتمال انتخاب هر فرد در نمونه‌گیری تصادفی ساده؟</h3>
+      <div class="options">
+        <button class="option" data-i="0">N / k</button>
+        <button class="option" data-i="1">k / N</button>
+        <button class="option" data-i="2">N − k</button>
+        <button class="option" data-i="3">1 / N</button>
       </div>
     </div>
+    <div class="img-side">
+      <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" style="max-width:100%; height:auto;">
+        <rect width="300" height="200" fill="#0b1220"/>
+        <circle cx="150" cy="100" r="85" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.6"/>
+        <text x="150" y="25" text-anchor="middle" fill="#94a3b8" font-size="11" font-family="Tahoma">جامعه (N)</text>
+        <g fill="#38bdf8" opacity="0.7">
+          <circle cx="110" cy="80" r="3"/><circle cx="130" cy="65" r="3"/>
+          <circle cx="160" cy="75" r="3"/><circle cx="180" cy="90" r="3"/>
+          <circle cx="120" cy="110" r="3"/><circle cx="145" cy="120" r="3"/>
+          <circle cx="175" cy="115" r="3"/><circle cx="155" cy="145" r="3"/>
+          <circle cx="130" cy="140" r="3"/><circle cx="180" cy="140" r="3"/>
+        </g>
+        <g fill="#facc15" stroke="#fde68a" stroke-width="1.5">
+          <circle cx="110" cy="80" r="6"/>
+          <circle cx="160" cy="75" r="6"/>
+          <circle cx="145" cy="120" r="6"/>
+          <circle cx="180" cy="140" r="6"/>
+        </g>
+        <text x="150" y="195" text-anchor="middle" fill="#facc15" font-size="10" font-family="Tahoma">k = ۴ انتخاب شده</text>
+      </svg>
+    </div>
+    <div class="explain"></div>
+  </div>
 
-    <div class="exercise" data-correct="1">
-      <div class="q-side">
-        <h3>۱. احتمال انتخاب هر فرد در نمونه‌گیری تصادفی ساده؟</h3>
-        <div class="options">
-          <button class="option" data-i="0">N / k</button>
-          <button class="option" data-i="1">k / N</button>
-          <button class="option" data-i="2">N − k</button>
-          <button class="option" data-i="3">1 / N</button>
-        </div>
+  <!-- Exercise 2: Biased Sample -->
+  <div class="exercise" data-correct="2">
+    <div class="q-side">
+      <h3>۲. نمونه از یک دانشگاه خاص ← چه مشکلی؟</h3>
+      <div class="options">
+        <button class="option" data-i="0">حجم نمونه کم است</button>
+        <button class="option" data-i="1">داده‌ها دقیق نیستند</button>
+        <button class="option" data-i="2">نمونه اریب می‌شود</button>
+        <button class="option" data-i="3">هیچ مشکلی نیست</button>
       </div>
-      <div class="img-side"><div style="text-align:center; color:#94a3b8;"><div style="font-size:3rem;">🎲</div><p>قرعه‌کشی از میان N واحد</p></div></div>
-      <div class="explain"></div>
     </div>
+    <div class="img-side">
+      <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" style="max-width:100%; height:auto;">
+        <rect width="300" height="200" fill="#0b1220"/>
+        <text x="150" y="20" text-anchor="middle" fill="#94a3b8" font-size="11" font-family="Tahoma">شهر با دانشگاه‌های مختلف</text>
+        <rect x="30" y="50" width="50" height="40" rx="6" fill="none" stroke="#38bdf8" stroke-width="1.5" opacity="0.5"/>
+        <text x="55" y="75" text-anchor="middle" fill="#94a3b8" font-size="9">دانشگاه ۱</text>
+        <rect x="125" y="50" width="50" height="40" rx="6" fill="none" stroke="#38bdf8" stroke-width="1.5" opacity="0.5"/>
+        <text x="150" y="75" text-anchor="middle" fill="#94a3b8" font-size="9">دانشگاه ۲</text>
+        <rect x="220" y="50" width="50" height="40" rx="6" fill="#fb7185" fill-opacity="0.25" stroke="#fb7185" stroke-width="2"/>
+        <text x="245" y="75" text-anchor="middle" fill="#fecaca" font-size="9">دانشگاه ۳</text>
+        <g transform="translate(245, 110)">
+          <circle r="5" fill="#fb7185"/>
+          <text y="-12" text-anchor="middle" fill="#fb7185" font-size="9">فقط این!</text>
+        </g>
+        <g stroke="#fb7185" stroke-width="2" opacity="0.5">
+          <line x1="40" y1="110" x2="60" y2="130"/>
+          <line x1="60" y1="110" x2="40" y2="130"/>
+          <line x1="135" y1="110" x2="155" y2="130"/>
+          <line x1="155" y1="110" x2="135" y2="130"/>
+        </g>
+        <text x="150" y="185" text-anchor="middle" fill="#fb7185" font-size="10" font-family="Tahoma">نتیجه: اریب!</text>
+      </svg>
+    </div>
+    <div class="explain"></div>
+  </div>
 
-    <div class="exercise" data-correct="2">
-      <div class="q-side">
-        <h3>۲. نمونه از یک دانشگاه خاص ← چه مشکلی؟</h3>
-        <div class="options">
-          <button class="option" data-i="0">حجم نمونه کم است</button>
-          <button class="option" data-i="1">داده‌ها دقیق نیستند</button>
-          <button class="option" data-i="2">نمونه اریب می‌شود</button>
-          <button class="option" data-i="3">هیچ مشکلی نیست</button>
-        </div>
+  <!-- Exercise 3: Standard Error -->
+  <div class="exercise" data-correct="1">
+    <div class="q-side">
+      <h3>۳. اگر اندازه نمونه ۴ برابر شود، انحراف معیار برآورد؟</h3>
+      <div class="options">
+        <button class="option" data-i="0">۴ برابر</button>
+        <button class="option" data-i="1">نصف</button>
+        <button class="option" data-i="2">۲ برابر</button>
+        <button class="option" data-i="3">تغییری نمی‌کند</button>
       </div>
-      <div class="img-side"><div style="text-align:center; color:#94a3b8;"><div style="font-size:3rem;">🏛️</div><p>فقط یک دانشگاه از شهر</p></div></div>
-      <div class="explain"></div>
     </div>
+    <div class="img-side">
+      <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" style="max-width:100%; height:auto;">
+        <rect width="300" height="200" fill="#0b1220"/>
+        <text x="150" y="30" text-anchor="middle" fill="#a7f3d0" font-size="16" font-family="Georgia">σₓ̄ = σ / √n</text>
+        <rect x="40" y="70" width="30" height="90" rx="3" fill="#38bdf8" opacity="0.4"/>
+        <text x="55" y="175" text-anchor="middle" fill="#94a3b8" font-size="9">n = ۱۰</text>
+        <text x="55" y="60" text-anchor="middle" fill="#38bdf8" font-size="10" font-weight="bold">σₓ̄=۱</text>
+        <rect x="130" y="115" width="30" height="45" rx="3" fill="#10b981" opacity="0.5"/>
+        <text x="145" y="175" text-anchor="middle" fill="#94a3b8" font-size="9">n = ۴۰</text>
+        <text x="145" y="105" text-anchor="middle" fill="#10b981" font-size="10" font-weight="bold">σₓ̄=۰٫۵</text>
+        <rect x="220" y="137" width="30" height="23" rx="3" fill="#a78bfa" opacity="0.6"/>
+        <text x="235" y="175" text-anchor="middle" fill="#94a3b8" font-size="9">n = ۱۶۰</text>
+        <text x="235" y="127" text-anchor="middle" fill="#a78bfa" font-size="10" font-weight="bold">σₓ̄=۰٫۲۵</text>
+        <path d="M 80 100 Q 150 130 210 145" stroke="#facc15" stroke-width="1.5" fill="none" stroke-dasharray="4 3"/>
+        <text x="150" y="155" text-anchor="middle" fill="#facc15" font-size="9">کاهش</text>
+      </svg>
+    </div>
+    <div class="explain"></div>
+  </div>
 
-    <div class="exercise" data-correct="1">
-      <div class="q-side">
-        <h3>۳. اگر اندازه نمونه ۴ برابر شود، انحراف معیار برآورد؟</h3>
-        <div class="options">
-          <button class="option" data-i="0">۴ برابر</button>
-          <button class="option" data-i="1">نصف</button>
-          <button class="option" data-i="2">۲ برابر</button>
-          <button class="option" data-i="3">تغییری نمی‌کند</button>
-        </div>
+  <!-- Exercise 4: Stratified -->
+  <div class="exercise" data-correct="3">
+    <div class="q-side">
+      <h3>۴. کدام روش برای جامعه طبقه‌بندی‌شده مناسب‌تر است؟</h3>
+      <div class="options">
+        <button class="option" data-i="0">تصادفی ساده</button>
+        <button class="option" data-i="1">خوشه‌ای</button>
+        <button class="option" data-i="2">سیستماتیک</button>
+        <button class="option" data-i="3">طبقه‌ای</button>
       </div>
-      <div class="img-side"><div style="text-align:center; color:#94a3b8;"><div style="font-size:3rem;">📉</div><p>σ<sub>x̄</sub> = σ / √n</p></div></div>
-      <div class="explain"></div>
     </div>
+    <div class="img-side">
+      <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" style="max-width:100%; height:auto;">
+        <rect width="300" height="200" fill="#0b1220"/>
+        <text x="150" y="20" text-anchor="middle" fill="#94a3b8" font-size="11" font-family="Tahoma">جامعه به طبقات همگن تقسیم شده</text>
+        <rect x="40" y="40" width="220" height="35" rx="6" fill="#38bdf8" opacity="0.2" stroke="#38bdf8" stroke-width="1.5"/>
+        <text x="150" y="62" text-anchor="middle" fill="#38bdf8" font-size="10">طبقه ۱ (دختران)</text>
+        <rect x="40" y="85" width="220" height="35" rx="6" fill="#a78bfa" opacity="0.2" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="150" y="107" text-anchor="middle" fill="#a78bfa" font-size="10">طبقه ۲ (پسران)</text>
+        <rect x="40" y="130" width="220" height="35" rx="6" fill="#10b981" opacity="0.2" stroke="#10b981" stroke-width="1.5"/>
+        <text x="150" y="152" text-anchor="middle" fill="#10b981" font-size="10">طبقه ۳ (سایر)</text>
+        <g fill="#facc15" stroke="#fde68a" stroke-width="1.5">
+          <circle cx="80" cy="57" r="5"/>
+          <circle cx="180" cy="57" r="5"/>
+          <circle cx="100" cy="102" r="5"/>
+          <circle cx="200" cy="102" r="5"/>
+          <circle cx="120" cy="147" r="5"/>
+          <circle cx="220" cy="147" r="5"/>
+        </g>
+        <text x="150" y="185" text-anchor="middle" fill="#facc15" font-size="10">نمونه از هر طبقه</text>
+      </svg>
+    </div>
+    <div class="explain"></div>
+  </div>
 
-    <div class="exercise" data-correct="3">
-      <div class="q-side">
-        <h3>۴. کدام روش برای جامعه طبقه‌بندی‌شده مناسب‌تر است؟</h3>
-        <div class="options">
-          <button class="option" data-i="0">تصادفی ساده</button>
-          <button class="option" data-i="1">خوشه‌ای</button>
-          <button class="option" data-i="2">سیستماتیک</button>
-          <button class="option" data-i="3">طبقه‌ای</button>
-        </div>
+  <!-- Exercise 5: Standard Error Calculation -->
+  <div class="exercise" data-correct="2">
+    <div class="q-side">
+      <h3>۵. σ = ۳ و n = ۹۰۰ ← انحراف معیار برآورد؟</h3>
+      <div class="options">
+        <button class="option" data-i="0">۳</button>
+        <button class="option" data-i="1">۰٫۳</button>
+        <button class="option" data-i="2">۰٫۱</button>
+        <button class="option" data-i="3">۰٫۰۱</button>
       </div>
-      <div class="img-side"><div style="text-align:center; color:#94a3b8;"><div style="font-size:3rem;">📊</div><p>طبقات همگن</p></div></div>
-      <div class="explain"></div>
     </div>
+    <div class="img-side">
+      <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" style="max-width:100%; height:auto;">
+        <rect width="300" height="200" fill="#0b1220"/>
+        <text x="150" y="30" text-anchor="middle" fill="#a7f3d0" font-size="18" font-family="Georgia">σₓ̄ = σ / √n</text>
+        <text x="150" y="70" text-anchor="middle" fill="#94a3b8" font-size="14" font-family="Georgia">= ۳ / √۹۰۰</text>
+        <text x="150" y="100" text-anchor="middle" fill="#94a3b8" font-size="14" font-family="Georgia">= ۳ / ۳۰</text>
+        <rect x="90" y="120" width="120" height="45" rx="10" fill="#10b981" opacity="0.2" stroke="#10b981" stroke-width="2"/>
+        <text x="150" y="150" text-anchor="middle" fill="#a7f3d0" font-size="20" font-weight="bold" font-family="Georgia">۰٫۱</text>
+        <text x="150" y="185" text-anchor="middle" fill="#94a3b8" font-size="10">انحراف معیار برآورد میانگین</text>
+      </svg>
+    </div>
+    <div class="explain"></div>
+  </div>
 
-    <div class="exercise" data-correct="2">
-      <div class="q-side">
-        <h3>۵. σ = ۳ و n = ۹۰۰ ← انحراف معیار برآورد؟</h3>
-        <div class="options">
-          <button class="option" data-i="0">۳</button>
-          <button class="option" data-i="1">۰٫۳</button>
-          <button class="option" data-i="2">۰٫۱</button>
-          <button class="option" data-i="3">۰٫۰۱</button>
-        </div>
-      </div>
-      <div class="img-side"><div style="text-align:center; color:#94a3b8;"><div style="font-size:3rem;">🧮</div><p>σ<sub>x̄</sub> = ۳ / √۹۰۰</p></div></div>
-      <div class="explain"></div>
-    </div>
-
-    <div class="next-wrap">
-      <button class="btn ghost" onclick="goToPage(6)">⬅ بازگشت</button>
-      <button class="btn" onclick="goToPage(8)">ادامه یادگیری ➡</button>
-    </div>
-    <div class="progress-dots" id="dots7"></div>
-  </section>
+  <div class="next-wrap">
+    <button class="btn ghost" onclick="goToPage(6)">⬅ بازگشت</button>
+    <button class="btn" onclick="goToPage(8)">ادامه یادگیری ➡</button>
+  </div>
+  <div class="progress-dots" id="dots7"></div>
+</section>
 
   <!-- ===== PAGE 9: جمع‌بندی ===== -->
   <section class="page" data-page="8" data-bg="summary">
