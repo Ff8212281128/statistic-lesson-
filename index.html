@@ -417,6 +417,92 @@
     font-size:1.1rem; color:var(--text-dim); font-weight:bold;
   }
   .cluster-box.selected .cluster-num { color:#fff; }
+/* ===== CONFIDENCE INTERVAL LAB ===== */
+.ci-lab {
+  background:rgba(15,23,42,.7); border:1px solid var(--border);
+  border-radius:18px; padding:20px; margin:20px 0;
+  box-shadow:inset 0 0 20px rgba(56,189,248,.05);
+}
+.ci-lab-title {
+  text-align:center; font-size:1.1rem; font-weight:800; color:var(--accent);
+  margin-bottom:20px; text-shadow:0 0 10px rgba(56,189,248,.4);
+}
+.ci-controls {
+  display:flex; flex-direction:column; gap:20px; margin-bottom:20px;
+}
+.ci-slider-group {
+  display:flex; flex-direction:column; gap:8px;
+}
+.ci-slider-header {
+  display:flex; justify-content:space-between; align-items:center;
+  font-size:.9rem; color:var(--text); font-weight:bold;
+}
+.ci-val-badge {
+  background:rgba(56,189,248,.15); border:1px solid var(--accent);
+  color:var(--accent); padding:2px 10px; border-radius:10px;
+  font-family:monospace; font-size:1rem;
+}
+.ci-slider {
+  -webkit-appearance:none; width:100%; height:8px; border-radius:5px;
+  background:linear-gradient(to right, var(--accent) 50%, rgba(148,163,184,.2) 50%);
+  outline:none; opacity:0.9; transition:.2s;
+}
+.ci-slider:hover { opacity:1; }
+.ci-slider::-webkit-slider-thumb {
+  -webkit-appearance:none; appearance:none;
+  width:22px; height:22px; border-radius:50%;
+  background:#fff; border:3px solid var(--accent);
+  cursor:pointer; box-shadow:0 0 10px var(--accent);
+  transition: transform 0.1s;
+}
+.ci-slider::-webkit-slider-thumb:active { transform:scale(1.15); }
+
+.ci-results-grid {
+  display:grid; grid-template-columns:repeat(2, 1fr); gap:12px; margin-bottom:24px;
+}
+@media(max-width:600px){ .ci-results-grid { grid-template-columns:1fr; } }
+
+.ci-result-box {
+  background:rgba(8,13,24,.6); border:1px solid var(--border);
+  border-radius:12px; padding:12px; text-align:center;
+}
+.ci-result-box .label {
+  font-size:.8rem; color:var(--text-dim); margin-bottom:6px;
+}
+.ci-result-box .value {
+  font-size:1.4rem; font-weight:800; color:var(--accent-4);
+  font-family:monospace;
+}
+
+.ci-visualizer {
+  background:rgba(8,13,24,.6); border:1px solid var(--border);
+  border-radius:12px; padding:20px 10px; position:relative;
+}
+.ci-axis {
+  position:relative; height:60px;
+  border-bottom:2px solid rgba(148,163,184,.3); margin:20px 10px 30px 10px;
+}
+.ci-axis-ticks {
+  display:flex; justify-content:space-between; position:absolute;
+  bottom:-25px; width:100%; font-size:.7rem; color:var(--text-dim); font-family:monospace;
+}
+.ci-bar-container {
+  position:absolute; bottom:0; height:100%; width:100%; pointer-events:none;
+}
+.ci-interval-bar {
+  position:absolute; top:50%; transform:translateY(-50%);
+  height:14px; background:rgba(16,185,129,.4); border:1px solid var(--accent-4);
+  border-radius:6px; transition: all 0.3s ease;
+}
+.ci-mean-marker {
+  position:absolute; top:50%; transform:translate(-50%, -50%);
+  width:4px; height:40px; background:var(--accent-2);
+  box-shadow:0 0 10px var(--accent-2); transition: left 0.3s ease;
+}
+.ci-mean-marker::before {
+  content:'x̄'; position:absolute; top:-22px; left:50%; transform:translateX(-50%);
+  color:var(--accent-2); font-weight:bold; font-family:serif;
+    }
 </style>
 </head>
 <body>
@@ -839,16 +925,72 @@
       <div class="concept-card warn"><h3>📉 افزایش σ</h3><p>بازه پهن‌تر، برآورد کم‌دقت‌تر.</p></div>
     </div>
 
-    <div style="text-align:center; margin:16px 0;">
-      <img src="images/means-distribution.png" alt="توزیع میانگین‌ها" style="max-width:100%; border-radius:12px; border:1px solid rgba(148,163,184,.2);">
-      <p style="font-size:.78rem; color:#94a3b8; margin-top:8px;">توزیع میانگین‌های نمونه‌ها حول میانگین جامعه μ (صفحه ۵۰)</p>
+    <div class="ci-lab">
+  <div class="ci-lab-title">🔬 آزمایشگاه زنده: بازه اطمینان</div>
+  
+  <div class="ci-controls">
+    <!-- Sigma Slider -->
+    <div class="ci-slider-group">
+      <div class="ci-slider-header">
+        <span>انحراف معیار جامعه (σ)</span>
+        <span class="ci-val-badge" id="ci-sigma-val">۲</span>
+      </div>
+      <input type="range" class="ci-slider" id="ci-slider-sigma" min="0.5" max="5" step="0.1" value="2">
     </div>
-
-    <div style="text-align:center; margin:16px 0;">
-      <img src="images/confidence-interval.png" alt="پاره‌خط‌های بازه اطمینان" style="max-width:100%; border-radius:12px; border:1px solid rgba(148,163,184,.2);">
-      <p style="font-size:.78rem; color:#94a3b8; margin-top:8px;">۲۰ بازه اطمینان ۹۵٪ — ۱۹ تا خط μ را قطع کرده‌اند (صفحه ۵۱)</p>
+    
+    <!-- Sample Size Slider -->
+    <div class="ci-slider-group">
+      <div class="ci-slider-header">
+        <span>حجم نمونه (n)</span>
+        <span class="ci-val-badge" id="ci-n-val">۱۶</span>
+      </div>
+      <input type="range" class="ci-slider" id="ci-slider-n" min="4" max="400" step="4" value="16">
     </div>
+  </div>
 
+  <div class="ci-results-grid">
+    <div class="ci-result-box">
+      <div class="label">خطای استاندارد (SE)</div>
+      <div class="value" id="ci-se">۰٫۵</div>
+    </div>
+    <div class="ci-result-box">
+      <div class="label">طول بازه اطمینان (۹۵٪)</div>
+      <div class="value" id="ci-length">۲</div>
+    </div>
+    <div class="ci-result-box">
+      <div class="label">کران پایین بازه</div>
+      <div class="value" id="ci-lower">۱۷۱</div>
+    </div>
+    <div class="ci-result-box">
+      <div class="label">کران بالای بازه</div>
+      <div class="value" id="ci-upper">۱۷۳</div>
+    </div>
+  </div>
+
+  <div class="ci-visualizer">
+    <div style="text-align:center; font-size:0.85rem; color:var(--text-dim); margin-bottom:10px;">
+      میانگین نمونه (x̄) = <span style="color:var(--accent-2); font-weight:bold;">۱۷۲</span>
+    </div>
+    <div class="ci-axis">
+      <div class="ci-bar-container">
+        <div class="ci-interval-bar" id="ci-bar" style="left:40%; width:20%;"></div>
+        <div class="ci-mean-marker" id="ci-marker" style="left:50%;"></div>
+      </div>
+      <div class="ci-axis-ticks">
+        <span>۱۶۰</span>
+        <span>۱۶۵</span>
+        <span>۱۷۰</span>
+        <span>۱۷۵</span>
+        <span>۱۸۰</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="text-align:center; margin:16px 0;">
+  <img src="images/confidence-interval.png" alt="پاره‌خط‌های بازه اطمینان" style="max-width:100%; border-radius:12px; border:1px solid rgba(148,163,184,.2);">
+  <p style="font-size:.78rem; color:#94a3b8; margin-top:8px;">۲۰ بازه اطمینان ۹۵٪ — ۱۹ تا خط μ را قطع کرده‌اند (صفحه ۵۱)</p>
+</div>
     <div class="exercise" data-correct="0" style="margin-top:20px;">
       <div class="q-side">
         <h3>❓ در تصویر بالا، چند پاره‌خط آبی خط سیاه (μ) را قطع نکرده‌اند؟</h3>
@@ -1406,7 +1548,72 @@ function toFa(n){
   const fa = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
   return String(n).replace(/\d/g, d => fa[+d]);
 }
+/* ===== CONFIDENCE INTERVAL LAB LOGIC ===== */
+const ciSliderSigma = document.getElementById('ci-slider-sigma');
+const ciSliderN = document.getElementById('ci-slider-n');
+const ciSigmaVal = document.getElementById('ci-sigma-val');
+const ciNVal = document.getElementById('ci-n-val');
+const ciSE = document.getElementById('ci-se');
+const ciLength = document.getElementById('ci-length');
+const ciLower = document.getElementById('ci-lower');
+const ciUpper = document.getElementById('ci-upper');
+const ciBar = document.getElementById('ci-bar');
+const ciMarker = document.getElementById('ci-marker');
 
+const xBar = 172; // ثابت میانگین نمونه
+
+function updateCICalc() {
+  if(!ciSliderSigma) return;
+
+  const sigma = parseFloat(ciSliderSigma.value);
+  const n = parseInt(ciSliderN.value, 10);
+
+  // Updates labels
+  ciSigmaVal.textContent = toFa(sigma);
+  ciNVal.textContent = toFa(n);
+
+  // Update slider background gradient (for visual effect)
+  const percentSigma = ((sigma - 0.5) / (5 - 0.5)) * 100;
+  ciSliderSigma.style.background = `linear-gradient(to right, var(--accent) ${percentSigma}%, rgba(148,163,184,.2) ${percentSigma}%)`;
+  
+  const percentN = ((n - 4) / (400 - 4)) * 100;
+  ciSliderN.style.background = `linear-gradient(to right, var(--accent) ${percentN}%, rgba(148,163,184,.2) ${percentN}%)`;
+
+  // Math
+  const se = sigma / Math.sqrt(n);
+  const marginOfError = 2 * se; // For 95% CI
+  const lower = xBar - marginOfError;
+  const upper = xBar + marginOfError;
+  const length = upper - lower;
+
+  // Update text boxes
+  ciSE.textContent = toFa(se.toFixed(2));
+  ciLength.textContent = toFa(length.toFixed(2));
+  ciLower.textContent = toFa(lower.toFixed(1));
+  ciUpper.textContent = toFa(upper.toFixed(1));
+
+  // Update Visual Bar
+  // Axis range is 160 to 180 (length = 20)
+  const axisMin = 160;
+  const axisMax = 180;
+  const axisLength = axisMax - axisMin;
+
+  let barLeftPercent = ((lower - axisMin) / axisLength) * 100;
+  let barWidthPercent = (length / axisLength) * 100;
+
+  // Constraints (don't let it break out of the box)
+  if (barLeftPercent < 0) { barWidthPercent += barLeftPercent; barLeftPercent = 0; }
+  if (barLeftPercent + barWidthPercent > 100) { barWidthPercent = 100 - barLeftPercent; }
+
+  ciBar.style.left = `${barLeftPercent}%`;
+  ciBar.style.width = `${Math.max(barWidthPercent, 0.5)}%`; // Minimum width for visibility
+}
+
+if(ciSliderSigma && ciSliderN) {
+  ciSliderSigma.addEventListener('input', updateCICalc);
+  ciSliderN.addEventListener('input', updateCICalc);
+  updateCICalc(); // Initial call
+    }
 /* ===== BACKGROUND CANVAS ===== */
 (function(){
   const canvas = document.getElementById('bgLayerCanvas');
