@@ -1337,6 +1337,13 @@ function setBackground(type){
 
 function goToPage(index){
   if(index < 0 || index >= totalPages) return;
+  
+  // --- کد جدید برای توقف ویدیوها ---
+  document.querySelectorAll('video').forEach(vid => {
+    vid.pause();
+  });
+  // ---------------------------------
+
   pages.forEach(p => p.classList.remove('active'));
   pages[index].classList.add('active');
   currentPage = index;
