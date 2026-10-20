@@ -1013,8 +1013,28 @@
     <div class="ci-lab">
   <div class="ci-lab-title">🔬 آزمایشگاه زنده: بازه اطمینان</div>
   
+  <!-- نمودار خط کش (در بالا) -->
+  <div class="ci-visualizer" style="margin-bottom: 20px;">
+    <div style="text-align:center; font-size:0.85rem; color:var(--text-dim); margin-bottom:10px;">
+      میانگین نمونه (x̄) = <span style="color:var(--accent-2); font-weight:bold;">۱۷۲</span>
+    </div>
+    <div class="ci-axis">
+      <div class="ci-bar-container">
+        <div class="ci-interval-bar" id="ci-bar" style="left:40%; width:20%;"></div>
+        <div class="ci-mean-marker" id="ci-marker" style="left:50%;"></div>
+      </div>
+      <div class="ci-axis-ticks">
+        <span>۱۶۰</span>
+        <span>۱۶۵</span>
+        <span>۱۷۰</span>
+        <span>۱۷۵</span>
+        <span>۱۸۰</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- لغزنده ها (در پایین) -->
   <div class="ci-controls">
-    <!-- Sigma Slider -->
     <div class="ci-slider-group">
       <div class="ci-slider-header">
         <span>انحراف معیار جامعه (σ)</span>
@@ -1023,7 +1043,6 @@
       <input type="range" class="ci-slider" id="ci-slider-sigma" min="0.5" max="5" step="0.1" value="2">
     </div>
     
-    <!-- Sample Size Slider -->
     <div class="ci-slider-group">
       <div class="ci-slider-header">
         <span>حجم نمونه (n)</span>
@@ -1033,6 +1052,7 @@
     </div>
   </div>
 
+  <!-- نتایج (در پایین) -->
   <div class="ci-results-grid">
     <div class="ci-result-box">
       <div class="label">خطای استاندارد (SE)</div>
@@ -1051,27 +1071,7 @@
       <div class="value" id="ci-upper">۱۷۳</div>
     </div>
   </div>
-
-  <div class="ci-visualizer">
-    <div style="text-align:center; font-size:0.85rem; color:var(--text-dim); margin-bottom:10px;">
-      میانگین نمونه (x̄) = <span style="color:var(--accent-2); font-weight:bold;">۱۷۲</span>
     </div>
-    <div class="ci-axis">
-      <div class="ci-bar-container">
-        <div class="ci-interval-bar" id="ci-bar" style="left:40%; width:20%;"></div>
-        <div class="ci-mean-marker" id="ci-marker" style="left:50%;"></div>
-      </div>
-      <div class="ci-axis-ticks">
-        <span>۱۶۰</span>
-        <span>۱۶۵</span>
-        <span>۱۷۰</span>
-        <span>۱۷۵</span>
-        <span>۱۸۰</span>
-      </div>
-    </div>
-  </div>
-</div>
-
 <div style="text-align:center; margin:16px 0;">
   <img src="images/confidence-interval.png" alt="پاره‌خط‌های بازه اطمینان" style="max-width:100%; border-radius:12px; border:1px solid rgba(148,163,184,.2);">
   <p style="font-size:.78rem; color:#94a3b8; margin-top:8px;">۲۰ بازه اطمینان ۹۵٪ — ۱۹ تا خط μ را قطع کرده‌اند (صفحه ۵۱)</p>
