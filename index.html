@@ -417,6 +417,41 @@
     font-size:1.1rem; color:var(--text-dim); font-weight:bold;
   }
   .cluster-box.selected .cluster-num { color:#fff; }
+
+  /* ===== STRATIFIED SAMPLING LAB ===== */
+  .strat-lab {
+    background:rgba(15,23,42,.7); border:1px solid var(--border);
+    border-radius:18px; padding:20px; margin:16px 0;
+  }
+  .strat-container {
+    display:flex; flex-direction:column; gap:15px; margin-bottom:20px;
+  }
+  .strat-group {
+    background:rgba(8,13,24,.6); border-radius:12px; padding:10px;
+    border:1px solid var(--border); display:flex; align-items:center; gap:15px;
+  }
+  @media(max-width:600px){ .strat-group { flex-direction:column; align-items:flex-start; } }
+  .strat-label {
+    width:100px; font-size:.85rem; font-weight:bold; color:var(--text-dim);
+  }
+  .strat-cells {
+    display:grid; grid-template-columns:repeat(10, 1fr); gap:4px; flex:1; width:100%;
+  }
+  .strat-cell {
+    aspect-ratio:1; border-radius:4px; background:rgba(148,163,184,.15);
+    transition:0.3s; display:grid; place-items:center; font-size:0.6rem; color:transparent;
+  }
+  .strat-cell.selected {
+    color:#fff; font-weight:bold; transform:scale(1.1); z-index:2;
+  }
+  .strat-cell.group-a { background:rgba(56,189,248,.2); border:1px solid rgba(56,189,248,.3); }
+  .strat-cell.group-b { background:rgba(167,139,250,.2); border:1px solid rgba(167,139,250,.3); }
+  .strat-cell.group-c { background:rgba(251,113,133,.2); border:1px solid rgba(251,113,133,.3); }
+  
+  .strat-cell.group-a.selected { background:rgba(56,189,248,.8); box-shadow:0 0 10px #38bdf8; }
+  .strat-cell.group-b.selected { background:rgba(167,139,250,.8); box-shadow:0 0 10px #a78bfa; }
+  .strat-cell.group-c.selected { background:rgba(251,113,133,.8); box-shadow:0 0 10px #fb7185; }
+
 /* ===== CONFIDENCE INTERVAL LAB ===== */
 .ci-lab {
   background:rgba(15,23,42,.7); border:1px solid var(--border);
@@ -572,7 +607,7 @@
 <!-- ===== NAV ===== -->
 <nav class="nav">
   <div class="brand">🎓 آمار استنباطی <span>| یازدهم ریاضی</span></div>
-  <div class="progress-info" id="progressInfo">صفحه ۱ از ۱۱</div>
+  <div class="progress-info" id="progressInfo">صفحه ۱ از ۱۲</div>
 </nav>
 
 <!-- ===== PAGES ===== -->
@@ -659,10 +694,58 @@
     <div class="progress-dots" id="dots1"></div>
   </section>
 
-  <!-- ===== PAGE 3: Simple Random Sampling (Index 2) ===== -->
-  <section class="page" data-page="2" data-bg="grid">
+  <!-- ===== PAGE 3: Stratified Sampling (Index 2) ===== -->
+  <section class="page" data-page="2" data-bg="clusters">
     <div class="page-head">
       <div class="num">۳</div>
+      <div>
+        <h2>نمونه‌گیری طبقه‌ای</h2>
+        <p>تقسیم جامعه به طبقات همگن و نمونه‌گیری از تمام طبقات</p>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin:16px 0;">
+      <img src="images/stratified.jpg" alt="نمونه‌گیری طبقه‌ای" style="max-width:100%; border-radius:12px; border:1px solid rgba(148,163,184,.2);">
+    </div>
+
+    <div class="concept-card note" style="margin-bottom:16px;">
+      <h3>📌 نمونه‌گیری طبقه‌ای چیست؟</h3>
+      <p>در این روش، جامعه را به گروه‌های همگن (مثل دختران و پسران، یا پایه‌های تحصیلی مختلف) تقسیم می‌کنیم و از <b>هر گروه</b> به نسبت جمعیتش، به صورت تصادفی نمونه انتخاب می‌کنیم. این کار باعث می‌شود همه اقشار جامعه در نمونه ما نماینده داشته باشند.</p>
+    </div>
+
+    <div class="strat-lab">
+      <div class="strat-container">
+        <div class="strat-group">
+          <div class="strat-label">طبقه ۱ (آبی)</div>
+          <div class="strat-cells" id="strat-a"></div>
+        </div>
+        <div class="strat-group">
+          <div class="strat-label">طبقه ۲ (بنفش)</div>
+          <div class="strat-cells" id="strat-b"></div>
+        </div>
+        <div class="strat-group">
+          <div class="strat-label">طبقه ۳ (صورتی)</div>
+          <div class="strat-cells" id="strat-c"></div>
+        </div>
+      </div>
+      
+      <div class="random-controls">
+        <button class="btn" id="stratBtn" onclick="pickStratified()">نمونه‌گیری از تمام طبقات</button>
+        <div id="stratMessage" class="random-message">برای شروع دکمه را بزنید</div>
+      </div>
+    </div>
+
+    <div class="next-wrap">
+      <button class="btn ghost" onclick="goToPage(1)">⬅ بازگشت</button>
+      <button class="btn" onclick="goToPage(3)">ادامه یادگیری ➡</button>
+    </div>
+    <div class="progress-dots" id="dots2"></div>
+  </section>
+
+  <!-- ===== PAGE 4: Simple Random Sampling (Index 3) ===== -->
+  <section class="page" data-page="3" data-bg="grid">
+    <div class="page-head">
+      <div class="num">۴</div>
       <div>
         <h2>نمونه‌گیری تصادفی ساده</h2>
         <p>انتخاب ۲۰ نفر از ۱۰۰ نفر</p>
@@ -693,16 +776,16 @@
     </div>
 
     <div class="next-wrap">
-      <button class="btn ghost" onclick="goToPage(1)">⬅ بازگشت</button>
-      <button class="btn" onclick="goToPage(3)">ادامه یادگیری ➡</button>
+      <button class="btn ghost" onclick="goToPage(2)">⬅ بازگشت</button>
+      <button class="btn" onclick="goToPage(4)">ادامه یادگیری ➡</button>
     </div>
-    <div class="progress-dots" id="dots2"></div>
+    <div class="progress-dots" id="dots3"></div>
   </section>
 
-  <!-- ===== PAGE 4: Cluster Sampling (Index 3) ===== -->
-  <section class="page" data-page="3" data-bg="clusters">
+  <!-- ===== PAGE 5: Cluster Sampling (Index 4) ===== -->
+  <section class="page" data-page="4" data-bg="clusters">
     <div class="page-head">
-      <div class="num">۴</div>
+      <div class="num">۵</div>
       <div>
         <h2>نمونه‌گیری خوشه‌ای</h2>
         <p>انتخاب چند خوشه و بررسی تمام اعضای آن</p>
@@ -730,16 +813,16 @@
     </div>
 
     <div class="next-wrap">
-      <button class="btn ghost" onclick="goToPage(2)">⬅ بازگشت</button>
-      <button class="btn" onclick="goToPage(4)">ادامه یادگیری ➡</button>
+      <button class="btn ghost" onclick="goToPage(3)">⬅ بازگشت</button>
+      <button class="btn" onclick="goToPage(5)">ادامه یادگیری ➡</button>
     </div>
-    <div class="progress-dots" id="dots3"></div>
+    <div class="progress-dots" id="dots4"></div>
   </section>
 
-  <!-- ===== PAGE 5: Systematic Sampling (Index 4) ===== -->
-  <section class="page" data-page="4" data-bg="grid">
+  <!-- ===== PAGE 6: Systematic Sampling (Index 5) ===== -->
+  <section class="page" data-page="5" data-bg="grid">
     <div class="page-head">
-      <div class="num">۵</div>
+      <div class="num">۶</div>
       <div>
         <h2>آزمایشگاه نمونه‌گیری سیستماتیک</h2>
         <p>روی یکی از اعداد شروع کلیک کنید تا انتخاب زنده را ببینید</p>
@@ -768,16 +851,16 @@
 
     <div class="next-wrap">
       <button class="btn ghost" onclick="resetSystematic()">🔄 شروع مجدد</button>
-      <button class="btn ghost" onclick="goToPage(3)">⬅ بازگشت</button>
-      <button class="btn" onclick="goToPage(5)">ادامه یادگیری ➡</button>
+      <button class="btn ghost" onclick="goToPage(4)">⬅ بازگشت</button>
+      <button class="btn" onclick="goToPage(6)">ادامه یادگیری ➡</button>
     </div>
-    <div class="progress-dots" id="dots4"></div>
+    <div class="progress-dots" id="dots5"></div>
   </section>
 
-  <!-- ===== PAGE 6: Bias (Index 5) ===== -->
-  <section class="page" data-page="5" data-bg="bias">
+  <!-- ===== PAGE 7: Bias (Index 6) ===== -->
+  <section class="page" data-page="6" data-bg="bias">
     <div class="page-head">
-      <div class="num">۶</div>
+      <div class="num">۷</div>
       <div>
         <h2>اریب بودن (Bias)</h2>
         <p>وقتی نمونه‌گیری اشتباه می‌شود</p>
@@ -817,16 +900,16 @@
     </div>
 
     <div class="next-wrap">
-      <button class="btn ghost" onclick="goToPage(4)">⬅ بازگشت</button>
-      <button class="btn" onclick="goToPage(6)">ادامه یادگیری ➡</button>
+      <button class="btn ghost" onclick="goToPage(5)">⬅ بازگشت</button>
+      <button class="btn" onclick="goToPage(7)">ادامه یادگیری ➡</button>
     </div>
-    <div class="progress-dots" id="dots5"></div>
+    <div class="progress-dots" id="dots6"></div>
   </section>
 
-  <!-- ===== PAGE 7: Parameter (Index 6) ===== -->
-  <section class="page" data-page="6" data-bg="estimation">
+  <!-- ===== PAGE 8: Parameter (Index 7) ===== -->
+  <section class="page" data-page="7" data-bg="estimation">
     <div class="page-head">
-      <div class="num">۷</div>
+      <div class="num">۸</div>
       <div>
         <h2>پارامتر، آماره و برآورد</h2>
         <p>برآورد نقطه‌ای و بازه‌ای</p>
@@ -912,16 +995,16 @@
     </div>
 
     <div class="next-wrap">
-      <button class="btn ghost" onclick="goToPage(5)">⬅ بازگشت</button>
-      <button class="btn" onclick="goToPage(7)">ادامه یادگیری ➡</button>
+      <button class="btn ghost" onclick="goToPage(6)">⬅ بازگشت</button>
+      <button class="btn" onclick="goToPage(8)">ادامه یادگیری ➡</button>
     </div>
-    <div class="progress-dots" id="dots6"></div>
+    <div class="progress-dots" id="dots7"></div>
   </section>
 
-  <!-- ===== PAGE 8: Distribution (Index 7) ===== -->
-  <section class="page" data-page="7" data-bg="estimation">
+  <!-- ===== PAGE 9: Distribution (Index 8) ===== -->
+  <section class="page" data-page="8" data-bg="estimation">
     <div class="page-head">
-      <div class="num">۸</div>
+      <div class="num">۹</div>
       <div>
         <h2>شکل توزیع داده‌ها</h2>
         <p>از بافت‌نگاشت تا منحنی نرمال</p>
@@ -976,16 +1059,16 @@
     </div>
 
     <div class="next-wrap">
-      <button class="btn ghost" onclick="goToPage(6)">⬅ بازگشت</button>
-      <button class="btn" onclick="goToPage(8)">ادامه یادگیری ➡</button>
+      <button class="btn ghost" onclick="goToPage(7)">⬅ بازگشت</button>
+      <button class="btn" onclick="goToPage(9)">ادامه یادگیری ➡</button>
     </div>
-    <div class="progress-dots" id="dots7"></div>
+    <div class="progress-dots" id="dots8"></div>
   </section>
 
-  <!-- ===== PAGE 9: Confidence Interval (Index 8) ===== -->
-  <section class="page" data-page="8" data-bg="summary">
+  <!-- ===== PAGE 10: Confidence Interval (Index 9) ===== -->
+  <section class="page" data-page="9" data-bg="summary">
     <div class="page-head">
-      <div class="num">۹</div>
+      <div class="num">۱۰</div>
       <div>
         <h2>بازه اطمینان</h2>
         <p>تعبیر شهودی ۹۵٪</p>
@@ -1093,16 +1176,16 @@
     </div>
 
     <div class="next-wrap">
-      <button class="btn ghost" onclick="goToPage(7)">⬅ بازگشت</button>
-      <button class="btn" onclick="goToPage(9)">ادامه یادگیری ➡</button>
+      <button class="btn ghost" onclick="goToPage(8)">⬅ بازگشت</button>
+      <button class="btn" onclick="goToPage(10)">ادامه یادگیری ➡</button>
     </div>
-    <div class="progress-dots" id="dots8"></div>
+    <div class="progress-dots" id="dots9"></div>
   </section>
 
-  <!-- ===== PAGE 10: Exercises (Index 9) ===== -->
-  <section class="page" data-page="9" data-bg="quiz">
+  <!-- ===== PAGE 11: Exercises (Index 10) ===== -->
+  <section class="page" data-page="10" data-bg="quiz">
     <div class="page-head">
-      <div class="num">۱۰</div>
+      <div class="num">۱۱</div>
       <div>
         <h2>تمرین‌های تعاملی</h2>
         <p>دانش خود را محک بزنید</p>
@@ -1273,16 +1356,16 @@
     </div>
 
     <div class="next-wrap">
-      <button class="btn ghost" onclick="goToPage(8)">⬅ بازگشت</button>
-      <button class="btn" onclick="goToPage(10)">ادامه یادگیری ➡</button>
+      <button class="btn ghost" onclick="goToPage(9)">⬅ بازگشت</button>
+      <button class="btn" onclick="goToPage(11)">ادامه یادگیری ➡</button>
     </div>
-    <div class="progress-dots" id="dots9"></div>
+    <div class="progress-dots" id="dots10"></div>
   </section>
 
-  <!-- ===== PAGE 11: Summary (Index 10) ===== -->
-  <section class="page" data-page="10" data-bg="summary">
+  <!-- ===== PAGE 12: Summary (Index 11) ===== -->
+  <section class="page" data-page="11" data-bg="summary">
     <div class="page-head">
-      <div class="num">۱۱</div>
+      <div class="num">۱۲</div>
       <div>
         <h2>جمع‌بندی</h2>
         <p>آنچه یاد گرفتیم</p>
@@ -1301,10 +1384,10 @@
     </div>
 
     <div class="next-wrap">
-      <button class="btn ghost" onclick="goToPage(9)">⬅ بازگشت</button>
+      <button class="btn ghost" onclick="goToPage(10)">⬅ بازگشت</button>
       <button class="btn" onclick="goToPage(0)">🔄 شروع دوباره</button>
     </div>
-    <div class="progress-dots" id="dots10"></div>
+    <div class="progress-dots" id="dots11"></div>
   </section>
 
 </div>
@@ -1634,6 +1717,61 @@ async function pickCluster() {
   clusterBusy = false;
 }
 
+/* ===== STRATIFIED SAMPLING LAB LOGIC ===== */
+let stratifiedSelected = 0;
+let isStratAnimating = false;
+
+function initStratified() {
+  const groups = ['a', 'b', 'c'];
+  groups.forEach(g => {
+    const container = document.getElementById('strat-' + g);
+    if(!container) return;
+    container.innerHTML = '';
+    for(let i=1; i<=20; i++){
+      const cell = document.createElement('div');
+      cell.className = 'strat-cell group-' + g;
+      cell.id = `strat-${g}-${i}`;
+      cell.textContent = toFa(i);
+      container.appendChild(cell);
+    }
+  });
+}
+
+async function pickStratified() {
+  if(isStratAnimating || stratifiedSelected > 0) return;
+  isStratAnimating = true;
+  
+  const btn = document.getElementById('stratBtn');
+  const msg = document.getElementById('stratMessage');
+  btn.disabled = true;
+  btn.style.opacity = '0.5';
+  msg.style.color = '#38bdf8';
+
+  const groups = ['a', 'b', 'c'];
+  
+  for(let step=1; step<=3; step++) {
+    msg.textContent = `انتخاب نمونه مرحله ${toFa(step)} از ۳...`;
+    
+    groups.forEach(g => {
+      let num;
+      do {
+        num = Math.floor(Math.random() * 20) + 1;
+      } while (document.getElementById(`strat-${g}-${num}`).classList.contains('selected'));
+      
+      const cell = document.getElementById(`strat-${g}-${num}`);
+      cell.classList.add('selected');
+    });
+    
+    await new Promise(r => setTimeout(r, 600));
+  }
+
+  msg.textContent = '✅ نمونه‌گیری طبقه‌ای انجام شد! (از هر طبقه ۳ نفر)';
+  msg.style.color = '#10b981';
+  btn.textContent = 'پایان';
+  isStratAnimating = false;
+  stratifiedSelected = 1;
+}
+
 /* ===== UTILS ===== */
 function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
 function toFa(n){
@@ -1856,7 +1994,8 @@ buildGroups();
 buildStartButtons();
 initRandomGrid();
 initClusterGrid();
+initStratified();
 </script>
 
 </body>
-          </html>
+  </html>
