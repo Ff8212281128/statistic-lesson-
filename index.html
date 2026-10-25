@@ -64,6 +64,29 @@
     background:rgba(56,189,248,.1);
     border:1px solid rgba(56,189,248,.3);
   }
+  .hamburger {
+    background: transparent; border: none; color: var(--text);
+    font-size: 1.5rem; cursor: pointer; padding: 0 10px 0 0; outline:none;
+  }
+
+  /* ===== SIDEBAR MENU ===== */
+  .sidebar {
+    position: fixed; top: 0; right: -300px; width: 280px; height: 100%;
+    background: var(--card-bg-2); border-left: 1px solid var(--border);
+    z-index: 1001; transition: right 0.3s ease; padding: 20px; overflow-y: auto;
+    box-shadow: -5px 0 30px rgba(0,0,0,0.5);
+  }
+  .sidebar.open { right: 0; }
+  .sidebar h3 { color: var(--accent); margin-bottom: 20px; text-align: center; border-bottom: 1px solid var(--border); padding-bottom: 10px;}
+  .sidebar a {
+    display: block; padding: 12px; color: var(--text-dim); text-decoration: none;
+    border-bottom: 1px solid var(--border); transition: 0.2s; font-size: 0.9rem; cursor:pointer;
+  }
+  .sidebar a:hover { color: var(--accent); background: rgba(56,189,248,0.1); padding-right: 18px; }
+  .sidebar-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1000; display: none;
+  }
+  .sidebar-overlay.open { display: block; }
 
   /* ===== PAGES ===== */
   .pages-container{
@@ -138,6 +161,51 @@
     background:rgba(15,23,42,.5);
   }
   .video-box .placeholder b{color:var(--accent-3); display:block; margin-bottom:6px;}
+
+  /* ===== TYPING EFFECT ===== */
+  .typing-text {
+    font-size: 1rem;
+    line-height: 2.2;
+    color: var(--text);
+    min-height: 150px;
+    text-align: justify;
+    position: relative;
+  }
+  .typing-cursor::after {
+    content: '▌';
+    color: var(--accent);
+    animation: blink-cursor 0.8s infinite;
+    margin-right: 2px;
+  }
+  @keyframes blink-cursor {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  /* ===== MODALS ===== */
+  .modal {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(5px); z-index: 2000; justify-content: center; align-items: center; padding: 20px;
+  }
+  .modal.active { display: flex; }
+  .modal-content {
+    background: var(--card-bg); border: 1px solid var(--accent);
+    border-radius: 16px; padding: 24px; max-width: 600px; width: 100%;
+    max-height: 80vh; overflow-y: auto; position: relative;
+    box-shadow: 0 10px 40px rgba(56,189,248,0.2);
+  }
+  .modal-content h3 {
+    color: var(--accent); margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 8px;
+  }
+  .modal-content p { line-height: 2.2; color: var(--text); font-size:0.95rem; }
+  .close-btn {
+    position: absolute; top: 15px; left: 15px; font-size: 1.8rem;
+    color: var(--text-dim); cursor: pointer; transition:0.2s;
+  }
+  .close-btn:hover { color: var(--accent-2); transform:scale(1.1); }
+  
+  .btn-group { display: flex; gap: 10px; justify-content: center; margin: 20px 0; }
+  .btn-group .btn { flex: 1; max-width: 200px; }
 
   /* ===== CARDS ===== */
   .grid-2{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:14px; margin:16px 0;}
@@ -606,29 +674,99 @@
 
 <!-- ===== NAV ===== -->
 <nav class="nav">
+  <button class="hamburger" onclick="toggleMenu()">☰</button>
   <div class="brand">🎓 آمار استنباطی <span>| یازدهم ریاضی</span></div>
-  <div class="progress-info" id="progressInfo">صفحه ۱ از ۱۲</div>
+  <div class="progress-info" id="progressInfo">صفحه ۱ از ۱۴</div>
 </nav>
+
+<!-- ===== SIDEBAR MENU ===== -->
+<div id="sidebar" class="sidebar">
+  <h3>فهرست مطالب</h3>
+  <a onclick="goToPage(0); toggleMenu();">🏠 صفحه اصلی (یادبود استاد)</a>
+  <a onclick="goToPage(1); toggleMenu();">۱. چرا آمار استنباطی؟</a>
+  <a onclick="goToPage(2); toggleMenu();">۲. جامعه، نمونه و روش‌ها</a>
+  <a onclick="goToPage(3); toggleMenu();">۳. نمونه‌گیری طبقه‌ای</a>
+  <a onclick="goToPage(4); toggleMenu();">۴. نمونه‌گیری تصادفی ساده</a>
+  <a onclick="goToPage(5); toggleMenu();">۵. نمونه‌گیری خوشه‌ای</a>
+  <a onclick="goToPage(6); toggleMenu();">۶. آزمایشگاه سیستماتیک</a>
+  <a onclick="goToPage(7); toggleMenu();">۷. اریب بودن</a>
+  <a onclick="goToPage(8); toggleMenu();">۸. پارامتر و برآورد</a>
+  <a onclick="goToPage(9); toggleMenu();">۹. شکل توزیع داده‌ها</a>
+  <a onclick="goToPage(10); toggleMenu();">۱۰. بازه اطمینان</a>
+  <a onclick="goToPage(11); toggleMenu();">۱۱. تمرین‌های تعاملی</a>
+  <a onclick="goToPage(12); toggleMenu();">۱۲. جمع‌بندی</a>
+  <a onclick="goToPage(13); toggleMenu();">💐 صفحه پایانی</a>
+</div>
+<div id="sidebar-overlay" class="sidebar-overlay" onclick="toggleMenu()"></div>
+
+<!-- ===== MODALS ===== -->
+<div id="modal-positions" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal('modal-positions')">&times;</span>
+    <h3>سمت‌های اجرایی و علمی</h3>
+    <p>_ مدیریت گروه آمار دانشگاه فردوسی<br>
+    _ معاونت پژوهشی دانشکده علوم<br>
+    _ عضو شورای دانشگاه فردوسی<br>
+    _ عضو انجمن ریاضی کشور<br>
+    _ عضو انجمن آمار<br>
+    _ عضو انجمن MRS<br>
+    و ...</p>
+  </div>
+</div>
+<div id="modal-works" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal('modal-works')">&times;</span>
+    <h3>آثار و تألیفات</h3>
+    <p>نظریه آمار، (جلد ۱)، چاپ اول ۱۳۶۷ (کتاب سال مرکز نشر دانشگاهی)<br><br>
+    نظریه آمار، (جلد ۲)، مرکز نشر دانشگاهی<br><br>
+    تجزیه و تحلیل سری‌های زمانی و پیش‌بینی با همکاری دکتر نیرومند، انتشارات دانشگاه فردوسی مشهد<br><br>
+    مبانی بررسی‌های نمونه‌ای با همکاری دکتر صادقی، انتشارات آستان قدس مشهد، سال ۱۳۷۰<br><br>
+    روش‌های نمونه گیری با همکاری دکتر حسینیون، انتشارات آستان قدس، مشهد، سال ۱۳۶۸<br><br>
+    طرح و تحلیل آزمایش‌های کشاورزی، با همکاری دکتر سرافراز، انتشارات آستان قدس، مشهد، ۱۳۷۲<br><br>
+    و ... ده‌ها کتاب دیگر</p>
+  </div>
+</div>
 
 <!-- ===== PAGES ===== -->
 <div class="pages-container">
 
-  <!-- ===== PAGE 1 (Index 0) ===== -->
-  <section class="page active" data-page="0" data-bg="grid">
+  <!-- ===== PAGE 0: Landing ===== -->
+  <section class="page active" data-page="0" data-bg="summary">
+    <div class="page-head" style="justify-content:center; border-bottom:none;">
+      <div style="text-align:center;">
+        <h2 style="color:var(--accent); font-size:1.8rem;">یادبود استاد بزرگ‌نیا</h2>
+        <p style="font-size:1rem; color:var(--accent-3);">پدر علم آمار ایران</p>
+      </div>
+    </div>
+
+    <div class="video-box" data-video="videos/intro.mp4">
+      <div class="label"><span class="dot"></span> ویدیوی معرفی — استاد بزرگ‌نیا</div>
+      <div class="placeholder">
+        <b>🎬 جای ویدیو</b>
+        فایل ویدیو را در پوشه <code>videos/intro.mp4</code> قرار دهید.
+      </div>
+    </div>
+
+    <div class="typing-text" id="bio-text" style="margin-top:20px;"></div>
+
+    <div class="btn-group">
+      <button class="btn" onclick="openModal('modal-positions')">سمت‌ها</button>
+      <button class="btn" onclick="openModal('modal-works')">آثار</button>
+    </div>
+
+    <div class="next-wrap" style="margin-top:10px;">
+      <button class="btn" onclick="goToPage(1)" style="padding:14px 50px; font-size:1.1rem; background:linear-gradient(135deg, var(--accent-4), var(--accent)); color:#000;">🚀 شروع یادگیری</button>
+    </div>
+    <div class="progress-dots" id="dots0"></div>
+  </section>
+
+  <!-- ===== PAGE 1 (Index 1) ===== -->
+  <section class="page" data-page="1" data-bg="grid">
     <div class="page-head">
       <div class="num">۱</div>
       <div>
         <h2>چرا آمار استنباطی؟</h2>
         <p>از توصیف داده‌ها تا تصمیم‌گیری درباره جامعه</p>
-      </div>
-    </div>
-
-    <div class="video-box" data-video="videos/intro.mp4">
-      <div class="label"><span class="dot"></span> ویدیوی معرفی — چرا آمار استنباطی؟</div>
-      <div class="placeholder">
-        <b>🎬 جای ویدیو</b>
-        فایل ویدیو را در پوشه <code>videos/intro.mp4</code> قرار دهید.<br>
-        یا مسیر را در <code>data-video</code> تغییر دهید.
       </div>
     </div>
 
@@ -648,26 +786,18 @@
     </div>
 
     <div class="next-wrap">
-      <button class="btn" onclick="goToPage(1)">ادامه یادگیری ➡</button>
+      <button class="btn" onclick="goToPage(2)">ادامه یادگیری ➡</button>
     </div>
-    <div class="progress-dots" id="dots0"></div>
+    <div class="progress-dots" id="dots1"></div>
   </section>
 
-  <!-- ===== PAGE 2 (Index 1) ===== -->
-  <section class="page" data-page="1" data-bg="clusters">
+  <!-- ===== PAGE 2 (Index 2) ===== -->
+  <section class="page" data-page="2" data-bg="clusters">
     <div class="page-head">
       <div class="num">۲</div>
       <div>
         <h2>جامعه، نمونه و روش‌های نمونه‌گیری</h2>
         <p>تصادفی ساده، خوشه‌ای، طبقه‌ای، سیستماتیک</p>
-      </div>
-    </div>
-
-    <div class="video-box" data-video="videos/sampling.mp4">
-      <div class="label"><span class="dot"></span> ویدیوی دوم — جامعه و نمونه</div>
-      <div class="placeholder">
-        <b>🎬 جای ویدیو</b>
-        فایل ویدیو را در پوشه <code>videos/sampling.mp4</code> قرار دهید.
       </div>
     </div>
 
@@ -688,14 +818,14 @@
     </table>
 
     <div class="next-wrap">
-      <button class="btn ghost" onclick="goToPage(0)">⬅ بازگشت</button>
-      <button class="btn" onclick="goToPage(2)">ادامه یادگیری ➡</button>
+      <button class="btn ghost" onclick="goToPage(1)">⬅ بازگشت</button>
+      <button class="btn" onclick="goToPage(3)">ادامه یادگیری ➡</button>
     </div>
-    <div class="progress-dots" id="dots1"></div>
+    <div class="progress-dots" id="dots2"></div>
   </section>
 
-  <!-- ===== PAGE 3: Stratified Sampling (Index 2) ===== -->
-  <section class="page" data-page="2" data-bg="clusters">
+  <!-- ===== PAGE 3: Stratified Sampling (Index 3) ===== -->
+  <section class="page" data-page="3" data-bg="clusters">
     <div class="page-head">
       <div class="num">۳</div>
       <div>
@@ -736,14 +866,14 @@
     </div>
 
     <div class="next-wrap">
-      <button class="btn ghost" onclick="goToPage(1)">⬅ بازگشت</button>
-      <button class="btn" onclick="goToPage(3)">ادامه یادگیری ➡</button>
+      <button class="btn ghost" onclick="goToPage(2)">⬅ بازگشت</button>
+      <button class="btn" onclick="goToPage(4)">ادامه یادگیری ➡</button>
     </div>
-    <div class="progress-dots" id="dots2"></div>
+    <div class="progress-dots" id="dots3"></div>
   </section>
 
-  <!-- ===== PAGE 4: Simple Random Sampling (Index 3) ===== -->
-  <section class="page" data-page="3" data-bg="grid">
+  <!-- ===== PAGE 4: Simple Random Sampling (Index 4) ===== -->
+  <section class="page" data-page="4" data-bg="grid">
     <div class="page-head">
       <div class="num">۴</div>
       <div>
@@ -776,14 +906,14 @@
     </div>
 
     <div class="next-wrap">
-      <button class="btn ghost" onclick="goToPage(2)">⬅ بازگشت</button>
-      <button class="btn" onclick="goToPage(4)">ادامه یادگیری ➡</button>
+      <button class="btn ghost" onclick="goToPage(3)">⬅ بازگشت</button>
+      <button class="btn" onclick="goToPage(5)">ادامه یادگیری ➡</button>
     </div>
-    <div class="progress-dots" id="dots3"></div>
+    <div class="progress-dots" id="dots4"></div>
   </section>
 
-  <!-- ===== PAGE 5: Cluster Sampling (Index 4) ===== -->
-  <section class="page" data-page="4" data-bg="clusters">
+  <!-- ===== PAGE 5: Cluster Sampling (Index 5) ===== -->
+  <section class="page" data-page="5" data-bg="clusters">
     <div class="page-head">
       <div class="num">۵</div>
       <div>
@@ -813,14 +943,14 @@
     </div>
 
     <div class="next-wrap">
-      <button class="btn ghost" onclick="goToPage(3)">⬅ بازگشت</button>
-      <button class="btn" onclick="goToPage(5)">ادامه یادگیری ➡</button>
+      <button class="btn ghost" onclick="goToPage(4)">⬅ بازگشت</button>
+      <button class="btn" onclick="goToPage(6)">ادامه یادگیری ➡</button>
     </div>
-    <div class="progress-dots" id="dots4"></div>
+    <div class="progress-dots" id="dots5"></div>
   </section>
 
-  <!-- ===== PAGE 6: Systematic Sampling (Index 5) ===== -->
-  <section class="page" data-page="5" data-bg="grid">
+  <!-- ===== PAGE 6: Systematic Sampling (Index 6) ===== -->
+  <section class="page" data-page="6" data-bg="grid">
     <div class="page-head">
       <div class="num">۶</div>
       <div>
@@ -851,27 +981,19 @@
 
     <div class="next-wrap">
       <button class="btn ghost" onclick="resetSystematic()">🔄 شروع مجدد</button>
-      <button class="btn ghost" onclick="goToPage(4)">⬅ بازگشت</button>
-      <button class="btn" onclick="goToPage(6)">ادامه یادگیری ➡</button>
+      <button class="btn ghost" onclick="goToPage(5)">⬅ بازگشت</button>
+      <button class="btn" onclick="goToPage(7)">ادامه یادگیری ➡</button>
     </div>
-    <div class="progress-dots" id="dots5"></div>
+    <div class="progress-dots" id="dots6"></div>
   </section>
 
-  <!-- ===== PAGE 7: Bias (Index 6) ===== -->
-  <section class="page" data-page="6" data-bg="bias">
+  <!-- ===== PAGE 7: Bias (Index 7) ===== -->
+  <section class="page" data-page="7" data-bg="bias">
     <div class="page-head">
       <div class="num">۷</div>
       <div>
         <h2>اریب بودن (Bias)</h2>
         <p>وقتی نمونه‌گیری اشتباه می‌شود</p>
-      </div>
-    </div>
-
-    <div class="video-box" data-video="videos/bias.mp4">
-      <div class="label"><span class="dot"></span> ویدیوی سوم — اریب و مثال‌های واقعی</div>
-      <div class="placeholder">
-        <b>🎬 جای ویدیو</b>
-        فایل ویدیو را در پوشه <code>videos/bias.mp4</code> قرار دهید.
       </div>
     </div>
 
@@ -900,27 +1022,19 @@
     </div>
 
     <div class="next-wrap">
-      <button class="btn ghost" onclick="goToPage(5)">⬅ بازگشت</button>
-      <button class="btn" onclick="goToPage(7)">ادامه یادگیری ➡</button>
+      <button class="btn ghost" onclick="goToPage(6)">⬅ بازگشت</button>
+      <button class="btn" onclick="goToPage(8)">ادامه یادگیری ➡</button>
     </div>
-    <div class="progress-dots" id="dots6"></div>
+    <div class="progress-dots" id="dots7"></div>
   </section>
 
-  <!-- ===== PAGE 8: Parameter (Index 7) ===== -->
-  <section class="page" data-page="7" data-bg="estimation">
+  <!-- ===== PAGE 8: Parameter (Index 8) ===== -->
+  <section class="page" data-page="8" data-bg="estimation">
     <div class="page-head">
       <div class="num">۸</div>
       <div>
         <h2>پارامتر، آماره و برآورد</h2>
         <p>برآورد نقطه‌ای و بازه‌ای</p>
-      </div>
-    </div>
-
-    <div class="video-box" data-video="videos/estimation.mp4">
-      <div class="label"><span class="dot"></span> ویدیوی چهارم — برآورد</div>
-      <div class="placeholder">
-        <b>🎬 جای ویدیو</b>
-        فایل ویدیو را در پوشه <code>videos/estimation.mp4</code> قرار دهید.
       </div>
     </div>
 
@@ -968,9 +1082,7 @@
     <div class="lab2-container">
   <div class="bar-chart-box">
     <div class="bar-chart-title">خطای استاندارد در برابر حجم نمونه</div>
-    <div class="bar-chart" id="lab2-bars">
-      <!-- Bars will be generated by JS -->
-    </div>
+    <div class="bar-chart" id="lab2-bars"></div>
   </div>
 
   <div class="ci-controls" style="margin-bottom:20px;">
@@ -995,14 +1107,14 @@
     </div>
 
     <div class="next-wrap">
-      <button class="btn ghost" onclick="goToPage(6)">⬅ بازگشت</button>
-      <button class="btn" onclick="goToPage(8)">ادامه یادگیری ➡</button>
+      <button class="btn ghost" onclick="goToPage(7)">⬅ بازگشت</button>
+      <button class="btn" onclick="goToPage(9)">ادامه یادگیری ➡</button>
     </div>
-    <div class="progress-dots" id="dots7"></div>
+    <div class="progress-dots" id="dots8"></div>
   </section>
 
-  <!-- ===== PAGE 9: Distribution (Index 8) ===== -->
-  <section class="page" data-page="8" data-bg="estimation">
+  <!-- ===== PAGE 9: Distribution (Index 9) ===== -->
+  <section class="page" data-page="9" data-bg="estimation">
     <div class="page-head">
       <div class="num">۹</div>
       <div>
@@ -1059,27 +1171,19 @@
     </div>
 
     <div class="next-wrap">
-      <button class="btn ghost" onclick="goToPage(7)">⬅ بازگشت</button>
-      <button class="btn" onclick="goToPage(9)">ادامه یادگیری ➡</button>
+      <button class="btn ghost" onclick="goToPage(8)">⬅ بازگشت</button>
+      <button class="btn" onclick="goToPage(10)">ادامه یادگیری ➡</button>
     </div>
-    <div class="progress-dots" id="dots8"></div>
+    <div class="progress-dots" id="dots9"></div>
   </section>
 
-  <!-- ===== PAGE 10: Confidence Interval (Index 9) ===== -->
-  <section class="page" data-page="9" data-bg="summary">
+  <!-- ===== PAGE 10: Confidence Interval (Index 10) ===== -->
+  <section class="page" data-page="10" data-bg="summary">
     <div class="page-head">
       <div class="num">۱۰</div>
       <div>
         <h2>بازه اطمینان</h2>
         <p>تعبیر شهودی ۹۵٪</p>
-      </div>
-    </div>
-
-    <div class="video-box" data-video="videos/confidence.mp4">
-      <div class="label"><span class="dot"></span> ویدیوی پنجم — بازه اطمینان</div>
-      <div class="placeholder">
-        <b>🎬 جای ویدیو</b>
-        فایل ویدیو را در پوشه <code>videos/confidence.mp4</code> قرار دهید.
       </div>
     </div>
 
@@ -1096,7 +1200,6 @@
     <div class="ci-lab">
   <div class="ci-lab-title">🔬 آزمایشگاه زنده: بازه اطمینان</div>
   
-  <!-- نمودار خط کش (در بالا) -->
   <div class="ci-visualizer" style="margin-bottom: 20px;">
     <div style="text-align:center; font-size:0.85rem; color:var(--text-dim); margin-bottom:10px;">
       میانگین نمونه (x̄) = <span style="color:var(--accent-2); font-weight:bold;">۱۷۲</span>
@@ -1116,7 +1219,6 @@
     </div>
   </div>
 
-  <!-- لغزنده ها (در پایین) -->
   <div class="ci-controls">
     <div class="ci-slider-group">
       <div class="ci-slider-header">
@@ -1135,7 +1237,6 @@
     </div>
   </div>
 
-  <!-- نتایج (در پایین) -->
   <div class="ci-results-grid">
     <div class="ci-result-box">
       <div class="label">خطای استاندارد (SE)</div>
@@ -1176,14 +1277,14 @@
     </div>
 
     <div class="next-wrap">
-      <button class="btn ghost" onclick="goToPage(8)">⬅ بازگشت</button>
-      <button class="btn" onclick="goToPage(10)">ادامه یادگیری ➡</button>
+      <button class="btn ghost" onclick="goToPage(9)">⬅ بازگشت</button>
+      <button class="btn" onclick="goToPage(11)">ادامه یادگیری ➡</button>
     </div>
-    <div class="progress-dots" id="dots9"></div>
+    <div class="progress-dots" id="dots10"></div>
   </section>
 
-  <!-- ===== PAGE 11: Exercises (Index 10) ===== -->
-  <section class="page" data-page="10" data-bg="quiz">
+  <!-- ===== PAGE 11: Exercises (Index 11) ===== -->
+  <section class="page" data-page="11" data-bg="quiz">
     <div class="page-head">
       <div class="num">۱۱</div>
       <div>
@@ -1192,7 +1293,6 @@
       </div>
     </div>
 
-    <!-- Exercise 1: Random Sampling -->
     <div class="exercise" data-correct="1">
       <div class="q-side">
         <h3>۱. احتمال انتخاب هر فرد در نمونه‌گیری تصادفی ساده؟</h3>
@@ -1227,7 +1327,6 @@
       <div class="explain"></div>
     </div>
 
-    <!-- Exercise 2: Biased Sample -->
     <div class="exercise" data-correct="2">
       <div class="q-side">
         <h3>۲. نمونه از یک دانشگاه خاص ← چه مشکلی؟</h3>
@@ -1264,7 +1363,6 @@
       <div class="explain"></div>
     </div>
 
-    <!-- Exercise 3: Standard Error -->
     <div class="exercise" data-correct="1">
       <div class="q-side">
         <h3>۳. اگر اندازه نمونه ۴ برابر شود، انحراف معیار برآورد؟</h3>
@@ -1295,7 +1393,6 @@
       <div class="explain"></div>
     </div>
 
-    <!-- Exercise 4: Stratified -->
     <div class="exercise" data-correct="3">
       <div class="q-side">
         <h3>۴. کدام روش برای جامعه طبقه‌بندی‌شده مناسب‌تر است؟</h3>
@@ -1330,7 +1427,6 @@
       <div class="explain"></div>
     </div>
 
-    <!-- Exercise 5: Standard Error Calculation -->
     <div class="exercise" data-correct="2">
       <div class="q-side">
         <h3>۵. σ = ۳ و n = ۹۰۰ ← انحراف معیار برآورد؟</h3>
@@ -1356,14 +1452,14 @@
     </div>
 
     <div class="next-wrap">
-      <button class="btn ghost" onclick="goToPage(9)">⬅ بازگشت</button>
-      <button class="btn" onclick="goToPage(11)">ادامه یادگیری ➡</button>
+      <button class="btn ghost" onclick="goToPage(10)">⬅ بازگشت</button>
+      <button class="btn" onclick="goToPage(12)">ادامه یادگیری ➡</button>
     </div>
-    <div class="progress-dots" id="dots10"></div>
+    <div class="progress-dots" id="dots11"></div>
   </section>
 
-  <!-- ===== PAGE 12: Summary (Index 11) ===== -->
-  <section class="page" data-page="11" data-bg="summary">
+  <!-- ===== PAGE 12: Summary (Index 12) ===== -->
+  <section class="page" data-page="12" data-bg="summary">
     <div class="page-head">
       <div class="num">۱۲</div>
       <div>
@@ -1384,10 +1480,32 @@
     </div>
 
     <div class="next-wrap">
-      <button class="btn ghost" onclick="goToPage(10)">⬅ بازگشت</button>
-      <button class="btn" onclick="goToPage(0)">🔄 شروع دوباره</button>
+      <button class="btn ghost" onclick="goToPage(11)">⬅ بازگشت</button>
+      <button class="btn" onclick="goToPage(13)">مشاهده پیام پایانی ➡</button>
     </div>
-    <div class="progress-dots" id="dots11"></div>
+    <div class="progress-dots" id="dots12"></div>
+  </section>
+
+  <!-- ===== PAGE 13: Outro (Index 13) ===== -->
+  <section class="page" data-page="13" data-bg="summary">
+    <div class="page-head" style="justify-content:center; border-bottom:none;">
+      <div style="text-align:center;">
+        <h2 style="color:var(--accent); font-size:1.8rem;">یادگار استاد</h2>
+      </div>
+    </div>
+    
+    <div style="text-align:center; margin-bottom:20px;">
+      <!-- از شما می‌خواهیم عکس دست‌خط استاد را با این نام در پوشه images قرار دهید -->
+      <img src="images/handwriting.jpg" alt="دست‌خط استاد" style="max-width:100%; border-radius:12px; border:1px solid rgba(148,163,184,.2); box-shadow:0 10px 30px rgba(0,0,0,0.5);">
+    </div>
+
+    <div class="typing-text" id="outro-text" style="text-align:center; font-size:1.2rem; color:var(--accent-3); line-height:2.5;"></div>
+    
+    <div class="next-wrap" style="margin-top:30px;">
+      <button class="btn ghost" onclick="goToPage(0)">🔄 شروع دوباره</button>
+      <button class="btn" onclick="goToPage(1)">پایان</button> <!-- بازگشت به صفحه اول یادگیری -->
+    </div>
+    <div class="progress-dots" id="dots13"></div>
   </section>
 
 </div>
@@ -1418,24 +1536,57 @@ function setBackground(type){
   }, 250);
 }
 
+let typingTimers = {};
+
+function startTyping(elementId, text, speed = 80) {
+  const el = document.getElementById(elementId);
+  if (!el) return;
+  
+  if (typingTimers[elementId]) clearInterval(typingTimers[elementId]);
+  el.innerHTML = '';
+  el.classList.add('typing-cursor');
+  
+  const words = text.split(' ');
+  let i = 0;
+  
+  typingTimers[elementId] = setInterval(() => {
+    if (i < words.length) {
+      el.innerHTML += (i > 0 ? ' ' : '') + words[i];
+      i++;
+    } else {
+      clearInterval(typingTimers[elementId]);
+      el.classList.remove('typing-cursor');
+    }
+  }, speed);
+}
+
 function goToPage(index){
   if(index < 0 || index >= totalPages) return;
   
-  // --- کد جدید برای توقف ویدیوها ---
-  document.querySelectorAll('video').forEach(vid => {
-    vid.pause();
-  });
-  // ---------------------------------
+  // توقف ویدیوها
+  document.querySelectorAll('video').forEach(vid => vid.pause());
+  
+  // توقف تایپ‌ها
+  Object.values(typingTimers).forEach(clearInterval);
+  document.querySelectorAll('.typing-text').forEach(el => el.classList.remove('typing-cursor'));
 
   pages.forEach(p => p.classList.remove('active'));
   pages[index].classList.add('active');
   currentPage = index;
+  
   const info = document.getElementById('progressInfo');
   if(info) info.textContent = `صفحه ${toFa(index+1)} از ${toFa(totalPages)}`;
   const bgType = pages[index].getAttribute('data-bg') || 'grid';
   setBackground(bgType);
   updateDots();
   pages[index].scrollTop = 0;
+
+  // شروع تایپ در صفحات خاص
+  if (index === 0) {
+    startTyping('bio-text', `سیدابوالقاسم بزرگ‌نیا، که بزرگ‌ترین نوه آقانجفی قوچانی (صاحب کتاب معروف سیاحت غرب) است، از بچگی با درس و کتاب بیگانه نبود و در طول زندگی همواره به فکر دستیابی به مراتب علمی بالاتر بود. ابوالقاسم که سال ۱۳۱۲ در قوچان متولد شد، تحصیلات ابتدایی و متوسطه را در همان شهر گذراند. سپس به مدت دو سال دانشسرای مقدماتی را به‌صورت شبانه‌روزی سپری کرد و به‌عنوان آموزگار به زادگاه خویش بازگشت، اما به آموزگاری اکتفا نکرد و دوره دانشسرای عالی و پس از آن هم مدرّسی ریاضی را در تهران پشت سر گذاشت. او به‌عنوان مامور به تدریس راهی دانشگاه فردوسی مشهد شد اما بعد از مدتی با بورسیه وزارت فرهنگ و آموزش عالی برای تحصیل دکترا عازم انگلستان شد. در انگلستان تصمیم به تغییر گرایش از ریاضی به آمار گرفت و سرانجام در سال ۱۳۵۴ مدرک دکترای آمار خود را از دانشگاه شفیلد انگلستان دریافت کرد و به دانشگاه فردوسی بازگشت. نوه آیت‌الله نجفی قوچانی که در ۹۰ سالگی هنوز اشتیاق به مطالعه و تحقیق و سیاحت در کتاب‌های شرق و غرب داشت، با تلاش و تحقیق و مطالعه مداوم در علم آمار آثار متعددی از خود به یادگار گذاشت تا مورداستفاده حال و آیندگان قرار بگیرد. پدر علم آمار ایران ۲۲ خرداد سال ۱۴۰۴ دار فانی را وداع گفت.`, 60);
+  } else if (index === 13) {
+    startTyping('outro-text', `تقدیم به استاد ابوالقاسم بزرگ‌نیا، پدر علم آمار ایران. یاد و نامتان همواره در تاریخ علم این سرزمین جاودان خواهد ماند.`, 100);
+  }
 }
 
 function updateDots(){
@@ -1451,6 +1602,18 @@ function updateDots(){
     }
     container.innerHTML = html;
   }
+}
+
+function toggleMenu() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebar-overlay').classList.toggle('open');
+}
+
+function openModal(id) {
+  document.getElementById(id).classList.add('active');
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('active');
 }
 
 /* ===== VIDEO ===== */
@@ -1790,7 +1953,7 @@ const ciUpper = document.getElementById('ci-upper');
 const ciBar = document.getElementById('ci-bar');
 const ciMarker = document.getElementById('ci-marker');
 
-const xBar = 172; // ثابت میانگین نمونه
+const xBar = 172;
 
 function updateCICalc() {
   if(!ciSliderSigma) return;
@@ -1798,32 +1961,26 @@ function updateCICalc() {
   const sigma = parseFloat(ciSliderSigma.value);
   const n = parseInt(ciSliderN.value, 10);
 
-  // Updates labels
   ciSigmaVal.textContent = toFa(sigma);
   ciNVal.textContent = toFa(n);
 
-  // Update slider background gradient (for visual effect)
   const percentSigma = ((sigma - 0.5) / (5 - 0.5)) * 100;
   ciSliderSigma.style.background = `linear-gradient(to right, var(--accent) ${percentSigma}%, rgba(148,163,184,.2) ${percentSigma}%)`;
   
   const percentN = ((n - 4) / (400 - 4)) * 100;
   ciSliderN.style.background = `linear-gradient(to right, var(--accent) ${percentN}%, rgba(148,163,184,.2) ${percentN}%)`;
 
-  // Math
   const se = sigma / Math.sqrt(n);
-  const marginOfError = 2 * se; // For 95% CI
+  const marginOfError = 2 * se;
   const lower = xBar - marginOfError;
   const upper = xBar + marginOfError;
   const length = upper - lower;
 
-  // Update text boxes
   ciSE.textContent = toFa(se.toFixed(2));
   ciLength.textContent = toFa(length.toFixed(2));
   ciLower.textContent = toFa(lower.toFixed(1));
   ciUpper.textContent = toFa(upper.toFixed(1));
 
-  // Update Visual Bar
-  // Axis range is 160 to 180 (length = 20)
   const axisMin = 160;
   const axisMax = 180;
   const axisLength = axisMax - axisMin;
@@ -1831,20 +1988,20 @@ function updateCICalc() {
   let barLeftPercent = ((lower - axisMin) / axisLength) * 100;
   let barWidthPercent = (length / axisLength) * 100;
 
-  // Constraints (don't let it break out of the box)
   if (barLeftPercent < 0) { barWidthPercent += barLeftPercent; barLeftPercent = 0; }
   if (barLeftPercent + barWidthPercent > 100) { barWidthPercent = 100 - barLeftPercent; }
 
   ciBar.style.left = `${barLeftPercent}%`;
-  ciBar.style.width = `${Math.max(barWidthPercent, 0.5)}%`; // Minimum width for visibility
+  ciBar.style.width = `${Math.max(barWidthPercent, 0.5)}%`; 
 }
 
 if(ciSliderSigma && ciSliderN) {
   ciSliderSigma.addEventListener('input', updateCICalc);
   ciSliderN.addEventListener('input', updateCICalc);
-  updateCICalc(); // Initial call
-    }
-  /* ===== LAB 2: STANDARD ERROR VS N LOGIC ===== */
+  updateCICalc();
+}
+
+/* ===== LAB 2: STANDARD ERROR VS N LOGIC ===== */
 const baseSigma = 2;
 const nValues = [4, 16, 36, 64, 100];
 const lab2Slider = document.getElementById('lab2-slider-k');
@@ -1920,9 +2077,9 @@ function toggleAccordion(btn) {
 
 if(lab2Slider) {
   lab2Slider.addEventListener('input', updateLab2);
-  // We need to ensure DOM is ready for lab2
   setTimeout(initLab2, 100);
-  }
+}
+
 /* ===== BACKGROUND CANVAS ===== */
 (function(){
   const canvas = document.getElementById('bgLayerCanvas');
