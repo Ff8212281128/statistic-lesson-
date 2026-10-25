@@ -739,7 +739,6 @@
       </div>
     </div>
 
-    <!-- ویدیوی مخصوص صفحه یادبود -->
     <div class="video-box" data-video="videos/yad.mp4">
       <div class="label"><span class="dot"></span> ویدیوی معرفی — استاد بزرگ‌نیا</div>
       <div class="placeholder">
@@ -1627,9 +1626,8 @@ function goToPage(index){
   updateDots();
   pages[index].scrollTop = 0;
 
-  // شروع تایپ در صفحه یادبود فقط در صورت لود نشدن ویدیو
+  // شروع تایپ در صفحه یادبود فقط در صورت لود نشدن ویدیو (شبیه‌سازی نبود ویدیو)
   if (index === 0) {
-    // اگر ویدیو وجود نداشت یا لود نشد، بعد از ۳ ثانیه تایپ و موسیقی شروع شود
     setTimeout(() => {
         const videoBox = document.querySelector('[data-video="videos/yad.mp4"]');
         const videoExists = videoBox ? videoBox.querySelector('video') : null;
@@ -2136,4 +2134,94 @@ function updateLab2() {
 }
 
 function toggleAccordion(btn) {
-  btn.classList
+  btn.classList.toggle('open');
+  const content = btn.nextElementSibling;
+  if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+    content.style.maxHeight = '0px';
+    content.classList.remove('open');
+  } else {
+    content.style.maxHeight = content.scrollHeight + 'px';
+    content.classList.add('open');
+  }
+}
+
+if(lab2Slider) {
+  lab2Slider.addEventListener('input', updateLab2);
+  setTimeout(initLab2, 100);
+}
+
+/* ===== BACKGROUND CANVAS ===== */
+(function(){
+  const canvas = document.getElementById('bgLayerCanvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H, dpr;
+  function resize(){
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = canvas.clientWidth;
+    H = canvas.clientHeight;
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  window.addEventListener('resize', resize);
+  resize();
+  const particles = [];
+  const colors = ['#38bdf8', '#a78bfa', '#fb7185', '#10b981', '#facc15'];
+  for(let i=0; i<70; i++){
+    particles.push({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: Math.random() * 2 + 1,
+      vx: (Math.random() - 0.5) * 0.8,
+      vy: (Math.random() - 0.5) * 0.8,
+      color: colors[Math.floor(Math.random()*colors.length)],
+      alpha: Math.random() * 0.45 + 0.2
+    });
+  }
+  function draw(){
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      if(p.x < 0 || p.x > W) p.vx *= -1;
+      if(p.y < 0 || p.y > H) p.vy *= -1;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = p.color;
+      ctx.globalAlpha = p.alpha;
+      ctx.fill();
+    });
+    ctx.globalAlpha = 0.1;
+    ctx.strokeStyle = '#38bdf8';
+    ctx.lineWidth = 0.6;
+    for(let i=0; i<particles.length; i++){
+      for(let j=i+1; j<particles.length; j++){
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if(dist < 180){
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ===== INIT ===== */
+buildGroups();
+buildStartButtons();
+initRandomGrid();
+initClusterGrid();
+initStratified();
+goToPage(0); // شروع خودکار تایپ در صفحه اول
+</script>
+
+</body>
+            </html>
