@@ -739,11 +739,12 @@
       </div>
     </div>
 
-    <div class="video-box" data-video="videos/intro.mp4">
+    <!-- ویدیوی مخصوص صفحه یادبود -->
+    <div class="video-box" data-video="videos/yad.mp4">
       <div class="label"><span class="dot"></span> ویدیوی معرفی — استاد بزرگ‌نیا</div>
       <div class="placeholder">
         <b>🎬 جای ویدیو</b>
-        فایل ویدیو را در پوشه <code>videos/intro.mp4</code> قرار دهید.
+        فایل ویدیو را در پوشه <code>videos/yad.mp4</code> قرار دهید.
       </div>
     </div>
 
@@ -767,6 +768,15 @@
       <div>
         <h2>چرا آمار استنباطی؟</h2>
         <p>از توصیف داده‌ها تا تصمیم‌گیری درباره جامعه</p>
+      </div>
+    </div>
+
+    <!-- ویدیوی صفحه چرا آمار استنباطی -->
+    <div class="video-box" data-video="videos/intro.mp4">
+      <div class="label"><span class="dot"></span> ویدیوی معرفی — چرا آمار استنباطی؟</div>
+      <div class="placeholder">
+        <b>🎬 جای ویدیو</b>
+        فایل ویدیو را در پوشه <code>videos/intro.mp4</code> قرار دهید.
       </div>
     </div>
 
@@ -798,6 +808,15 @@
       <div>
         <h2>جامعه، نمونه و روش‌های نمونه‌گیری</h2>
         <p>تصادفی ساده، خوشه‌ای، طبقه‌ای، سیستماتیک</p>
+      </div>
+    </div>
+
+    <!-- ویدیوی صفحه جامعه و نمونه -->
+    <div class="video-box" data-video="videos/sampling.mp4">
+      <div class="label"><span class="dot"></span> ویدیوی دوم — جامعه و نمونه</div>
+      <div class="placeholder">
+        <b>🎬 جای ویدیو</b>
+        فایل ویدیو را در پوشه <code>videos/sampling.mp4</code> قرار دهید.
       </div>
     </div>
 
@@ -997,6 +1016,15 @@
       </div>
     </div>
 
+    <!-- ویدیوی صفحه اریب بودن -->
+    <div class="video-box" data-video="videos/bias.mp4">
+      <div class="label"><span class="dot"></span> ویدیوی سوم — اریب و مثال‌های واقعی</div>
+      <div class="placeholder">
+        <b>🎬 جای ویدیو</b>
+        فایل ویدیو را در پوشه <code>videos/bias.mp4</code> قرار دهید.
+      </div>
+    </div>
+
     <div class="grid-2">
       <div class="concept-card warn">
         <h3>🚗 مثال ۱: طرح ترافیک</h3>
@@ -1035,6 +1063,15 @@
       <div>
         <h2>پارامتر، آماره و برآورد</h2>
         <p>برآورد نقطه‌ای و بازه‌ای</p>
+      </div>
+    </div>
+
+    <!-- ویدیوی صفحه پارامتر و برآورد -->
+    <div class="video-box" data-video="videos/estimation.mp4">
+      <div class="label"><span class="dot"></span> ویدیوی چهارم — برآورد</div>
+      <div class="placeholder">
+        <b>🎬 جای ویدیو</b>
+        فایل ویدیو را در پوشه <code>videos/estimation.mp4</code> قرار دهید.
       </div>
     </div>
 
@@ -1184,6 +1221,15 @@
       <div>
         <h2>بازه اطمینان</h2>
         <p>تعبیر شهودی ۹۵٪</p>
+      </div>
+    </div>
+
+    <!-- ویدیوی صفحه بازه اطمینان -->
+    <div class="video-box" data-video="videos/confidence.mp4">
+      <div class="label"><span class="dot"></span> ویدیوی پنجم — بازه اطمینان</div>
+      <div class="placeholder">
+        <b>🎬 جای ویدیو</b>
+        فایل ویدیو را در پوشه <code>videos/confidence.mp4</code> قرار دهید.
       </div>
     </div>
 
@@ -1495,7 +1541,7 @@
     </div>
     
     <div style="text-align:center; margin-bottom:20px;">
-      <!-- از شما می‌خواهیم عکس دست‌خط استاد را با این نام در پوشه images قرار دهید -->
+      <!-- عکس دست‌خط استاد با نام handwriting.jpg در پوشه images -->
       <img src="images/handwriting.jpg" alt="دست‌خط استاد" style="max-width:100%; border-radius:12px; border:1px solid rgba(148,163,184,.2); box-shadow:0 10px 30px rgba(0,0,0,0.5);">
     </div>
 
@@ -1503,7 +1549,7 @@
     
     <div class="next-wrap" style="margin-top:30px;">
       <button class="btn ghost" onclick="goToPage(0)">🔄 شروع دوباره</button>
-      <button class="btn" onclick="goToPage(1)">پایان</button> <!-- بازگشت به صفحه اول یادگیری -->
+      <button class="btn" onclick="goToPage(1)">پایان</button>
     </div>
     <div class="progress-dots" id="dots13"></div>
   </section>
@@ -2145,13 +2191,12 @@ if(lab2Slider) {
 })();
 
 /* ===== INIT ===== */
-updateDots();
-setBackground('grid');
 buildGroups();
 buildStartButtons();
 initRandomGrid();
 initClusterGrid();
 initStratified();
+goToPage(0); // شروع خودکار تایپ در صفحه اول
 </script>
 
 </body>
