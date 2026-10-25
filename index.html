@@ -685,8 +685,8 @@
   <a onclick="goToPage(0); toggleMenu();">🏠 صفحه اصلی (یادبود استاد)</a>
   <a onclick="goToPage(1); toggleMenu();">۱. چرا آمار استنباطی؟</a>
   <a onclick="goToPage(2); toggleMenu();">۲. جامعه، نمونه و روش‌ها</a>
-  <a onclick="goToPage(3); toggleMenu();">۳. نمونه‌گیری طبقه‌ای</a>
-  <a onclick="goToPage(4); toggleMenu();">۴. نمونه‌گیری تصادفی ساده</a>
+  <a onclick="goToPage(3); toggleMenu();">۳. نمونه‌گیری تصادفی ساده</a>
+  <a onclick="goToPage(4); toggleMenu();">۴. نمونه‌گیری طبقه‌ای</a>
   <a onclick="goToPage(5); toggleMenu();">۵. نمونه‌گیری خوشه‌ای</a>
   <a onclick="goToPage(6); toggleMenu();">۶. آزمایشگاه سیستماتیک</a>
   <a onclick="goToPage(7); toggleMenu();">۷. اریب بودن</a>
@@ -771,7 +771,6 @@
       </div>
     </div>
 
-    <!-- ویدیوی صفحه چرا آمار استنباطی -->
     <div class="video-box" data-video="videos/intro.mp4">
       <div class="label"><span class="dot"></span> ویدیوی معرفی — چرا آمار استنباطی؟</div>
       <div class="placeholder">
@@ -811,7 +810,6 @@
       </div>
     </div>
 
-    <!-- ویدیوی صفحه جامعه و نمونه -->
     <div class="video-box" data-video="videos/sampling.mp4">
       <div class="label"><span class="dot"></span> ویدیوی دوم — جامعه و نمونه</div>
       <div class="placeholder">
@@ -843,10 +841,50 @@
     <div class="progress-dots" id="dots2"></div>
   </section>
 
-  <!-- ===== PAGE 3: Stratified Sampling (Index 3) ===== -->
-  <section class="page" data-page="3" data-bg="clusters">
+  <!-- ===== PAGE 3: Simple Random Sampling (Index 3) ===== -->
+  <section class="page" data-page="3" data-bg="grid">
     <div class="page-head">
       <div class="num">۳</div>
+      <div>
+        <h2>نمونه‌گیری تصادفی ساده</h2>
+        <p>انتخاب ۲۰ نفر از ۱۰۰ نفر</p>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin:16px 0;">
+      <img src="images/random1.png" alt="انتخاب تصادفی اولیه" style="max-width:100%; border-radius:12px; border:1px solid rgba(148,163,184,.2);">
+    </div>
+
+    <div class="concept-card note" style="text-align:center; margin:16px 0; font-size:1.1rem; font-weight:bold; padding:15px;">
+      و بعد از ۲۰ مرحله انتخاب تصادفی👇
+    </div>
+
+    <div style="text-align:center; margin:16px 0;">
+      <img src="images/random20.jpg" alt="انتخاب تصادفی نهایی" style="max-width:100%; border-radius:12px; border:1px solid rgba(148,163,184,.2);">
+    </div>
+
+    <div class="random-activity">
+      <div class="digital-screen">
+        <div id="randomDisplay" class="display-content">- - -</div>
+      </div>
+      <div class="random-controls">
+        <button class="btn" id="randomBtn" onclick="pickRandom()">انتخاب تصادفی</button>
+        <div id="randomMessage" class="random-message">برای انتخاب تصادفی ۲۰ نفر دکمه را بزنید</div>
+      </div>
+      <div id="randomGrid" class="random-grid"></div>
+    </div>
+
+    <div class="next-wrap">
+      <button class="btn ghost" onclick="goToPage(2)">⬅ بازگشت</button>
+      <button class="btn" onclick="goToPage(4)">ادامه یادگیری ➡</button>
+    </div>
+    <div class="progress-dots" id="dots3"></div>
+  </section>
+
+  <!-- ===== PAGE 4: Stratified Sampling (Index 4) ===== -->
+  <section class="page" data-page="4" data-bg="clusters">
+    <div class="page-head">
+      <div class="num">۴</div>
       <div>
         <h2>نمونه‌گیری طبقه‌ای</h2>
         <p>تقسیم جامعه به طبقات همگن و نمونه‌گیری از تمام طبقات</p>
@@ -882,46 +920,6 @@
         <button class="btn" id="stratBtn" onclick="pickStratified()">نمونه‌گیری از تمام طبقات</button>
         <div id="stratMessage" class="random-message">برای شروع دکمه را بزنید</div>
       </div>
-    </div>
-
-    <div class="next-wrap">
-      <button class="btn ghost" onclick="goToPage(2)">⬅ بازگشت</button>
-      <button class="btn" onclick="goToPage(4)">ادامه یادگیری ➡</button>
-    </div>
-    <div class="progress-dots" id="dots3"></div>
-  </section>
-
-  <!-- ===== PAGE 4: Simple Random Sampling (Index 4) ===== -->
-  <section class="page" data-page="4" data-bg="grid">
-    <div class="page-head">
-      <div class="num">۴</div>
-      <div>
-        <h2>نمونه‌گیری تصادفی ساده</h2>
-        <p>انتخاب ۲۰ نفر از ۱۰۰ نفر</p>
-      </div>
-    </div>
-
-    <div style="text-align:center; margin:16px 0;">
-      <img src="images/random1.png" alt="انتخاب تصادفی اولیه" style="max-width:100%; border-radius:12px; border:1px solid rgba(148,163,184,.2);">
-    </div>
-
-    <div class="concept-card note" style="text-align:center; margin:16px 0; font-size:1.1rem; font-weight:bold; padding:15px;">
-      و بعد از ۲۰ مرحله انتخاب تصادفی👇
-    </div>
-
-    <div style="text-align:center; margin:16px 0;">
-      <img src="images/random20.jpg" alt="انتخاب تصادفی نهایی" style="max-width:100%; border-radius:12px; border:1px solid rgba(148,163,184,.2);">
-    </div>
-
-    <div class="random-activity">
-      <div class="digital-screen">
-        <div id="randomDisplay" class="display-content">- - -</div>
-      </div>
-      <div class="random-controls">
-        <button class="btn" id="randomBtn" onclick="pickRandom()">انتخاب تصادفی</button>
-        <div id="randomMessage" class="random-message">برای انتخاب تصادفی ۲۰ نفر دکمه را بزنید</div>
-      </div>
-      <div id="randomGrid" class="random-grid"></div>
     </div>
 
     <div class="next-wrap">
@@ -1016,7 +1014,6 @@
       </div>
     </div>
 
-    <!-- ویدیوی صفحه اریب بودن -->
     <div class="video-box" data-video="videos/bias.mp4">
       <div class="label"><span class="dot"></span> ویدیوی سوم — اریب و مثال‌های واقعی</div>
       <div class="placeholder">
@@ -1066,7 +1063,6 @@
       </div>
     </div>
 
-    <!-- ویدیوی صفحه پارامتر و برآورد -->
     <div class="video-box" data-video="videos/estimation.mp4">
       <div class="label"><span class="dot"></span> ویدیوی چهارم — برآورد</div>
       <div class="placeholder">
@@ -1224,7 +1220,6 @@
       </div>
     </div>
 
-    <!-- ویدیوی صفحه بازه اطمینان -->
     <div class="video-box" data-video="videos/confidence.mp4">
       <div class="label"><span class="dot"></span> ویدیوی پنجم — بازه اطمینان</div>
       <div class="placeholder">
@@ -1541,7 +1536,6 @@
     </div>
     
     <div style="text-align:center; margin-bottom:20px;">
-      <!-- عکس دست‌خط استاد با نام handwriting.jpg در پوشه images -->
       <img src="images/handwriting.jpg" alt="دست‌خط استاد" style="max-width:100%; border-radius:12px; border:1px solid rgba(148,163,184,.2); box-shadow:0 10px 30px rgba(0,0,0,0.5);">
     </div>
 
@@ -1571,6 +1565,8 @@ const bgTemplates = {
 const pages = document.querySelectorAll('.page');
 const totalPages = pages.length;
 let currentPage = 0;
+const bgMusic = new Audio('music.mp3');
+bgMusic.loop = true;
 
 function setBackground(type){
   const layer = document.getElementById('bgLayer');
@@ -1616,6 +1612,10 @@ function goToPage(index){
   Object.values(typingTimers).forEach(clearInterval);
   document.querySelectorAll('.typing-text').forEach(el => el.classList.remove('typing-cursor'));
 
+  // توقف موسیقی
+  bgMusic.pause();
+  bgMusic.currentTime = 0;
+
   pages.forEach(p => p.classList.remove('active'));
   pages[index].classList.add('active');
   currentPage = index;
@@ -1627,9 +1627,18 @@ function goToPage(index){
   updateDots();
   pages[index].scrollTop = 0;
 
-  // شروع تایپ در صفحات خاص
+  // شروع تایپ در صفحه یادبود فقط در صورت لود نشدن ویدیو
   if (index === 0) {
-    startTyping('bio-text', `سیدابوالقاسم بزرگ‌نیا، که بزرگ‌ترین نوه آقانجفی قوچانی (صاحب کتاب معروف سیاحت غرب) است، از بچگی با درس و کتاب بیگانه نبود و در طول زندگی همواره به فکر دستیابی به مراتب علمی بالاتر بود. ابوالقاسم که سال ۱۳۱۲ در قوچان متولد شد، تحصیلات ابتدایی و متوسطه را در همان شهر گذراند. سپس به مدت دو سال دانشسرای مقدماتی را به‌صورت شبانه‌روزی سپری کرد و به‌عنوان آموزگار به زادگاه خویش بازگشت، اما به آموزگاری اکتفا نکرد و دوره دانشسرای عالی و پس از آن هم مدرّسی ریاضی را در تهران پشت سر گذاشت. او به‌عنوان مامور به تدریس راهی دانشگاه فردوسی مشهد شد اما بعد از مدتی با بورسیه وزارت فرهنگ و آموزش عالی برای تحصیل دکترا عازم انگلستان شد. در انگلستان تصمیم به تغییر گرایش از ریاضی به آمار گرفت و سرانجام در سال ۱۳۵۴ مدرک دکترای آمار خود را از دانشگاه شفیلد انگلستان دریافت کرد و به دانشگاه فردوسی بازگشت. نوه آیت‌الله نجفی قوچانی که در ۹۰ سالگی هنوز اشتیاق به مطالعه و تحقیق و سیاحت در کتاب‌های شرق و غرب داشت، با تلاش و تحقیق و مطالعه مداوم در علم آمار آثار متعددی از خود به یادگار گذاشت تا مورداستفاده حال و آیندگان قرار بگیرد. پدر علم آمار ایران ۲۲ خرداد سال ۱۴۰۴ دار فانی را وداع گفت.`, 60);
+    // اگر ویدیو وجود نداشت یا لود نشد، بعد از ۳ ثانیه تایپ و موسیقی شروع شود
+    setTimeout(() => {
+        const videoBox = document.querySelector('[data-video="videos/yad.mp4"]');
+        const videoExists = videoBox ? videoBox.querySelector('video') : null;
+        
+        if (!videoExists && !document.getElementById('bio-text').innerHTML) {
+            startTyping('bio-text', `سیدابوالقاسم بزرگ‌نیا، که بزرگ‌ترین نوه آقانجفی قوچانی (صاحب کتاب معروف سیاحت غرب) است، از بچگی با درس و کتاب بیگانه نبود و در طول زندگی همواره به فکر دستیابی به مراتب علمی بالاتر بود. ابوالقاسم که سال ۱۳۱۲ در قوچان متولد شد، تحصیلات ابتدایی و متوسطه را در همان شهر گذراند. سپس به مدت دو سال دانشسرای مقدماتی را به‌صورت شبانه‌روزی سپری کرد و به‌عنوان آموزگار به زادگاه خویش بازگشت، اما به آموزگاری اکتفا نکرد و دوره دانشسرای عالی و پس از آن هم مدرّسی ریاضی را در تهران پشت سر گذاشت. او به‌عنوان مامور به تدریس راهی دانشگاه فردوسی مشهد شد اما بعد از مدتی با بورسیه وزارت فرهنگ و آموزش عالی برای تحصیل دکترا عازم انگلستان شد. در انگلستان تصمیم به تغییر گرایش از ریاضی به آمار گرفت و سرانجام در سال ۱۳۵۴ مدرک دکترای آمار خود را از دانشگاه شفیلد انگلستان دریافت کرد و به دانشگاه فردوسی بازگشت. نوه آیت‌الله نجفی قوچانی که در ۹۰ سالگی هنوز اشتیاق به مطالعه و تحقیق و سیاحت در کتاب‌های شرق و غرب داشت، با تلاش و تحقیق و مطالعه مداوم در علم آمار آثار متعددی از خود به یادگار گذاشت تا مورداستفاده حال و آیندگان قرار بگیرد. پدر علم آمار ایران ۲۲ خرداد سال ۱۴۰۴ دار فانی را وداع گفت.`, 60);
+            bgMusic.play().catch(e => console.log("Audio play failed:", e));
+        }
+    }, 3000);
   } else if (index === 13) {
     startTyping('outro-text', `تقدیم به استاد ابوالقاسم بزرگ‌نیا، پدر علم آمار ایران. یاد و نامتان همواره در تاریخ علم این سرزمین جاودان خواهد ماند.`, 100);
   }
@@ -1662,12 +1671,15 @@ function closeModal(id) {
   document.getElementById(id).classList.remove('active');
 }
 
-/* ===== VIDEO ===== */
+/* ===== VIDEO & PAGE 0 LOGIC ===== */
+const bioTextString = `سیدابوالقاسم بزرگ‌نیا، که بزرگ‌ترین نوه آقانجفی قوچانی (صاحب کتاب معروف سیاحت غرب) است، از بچگی با درس و کتاب بیگانه نبود و در طول زندگی همواره به فکر دستیابی به مراتب علمی بالاتر بود. ابوالقاسم که سال ۱۳۱۲ در قوچان متولد شد، تحصیلات ابتدایی و متوسطه را در همان شهر گذراند. سپس به مدت دو سال دانشسرای مقدماتی را به‌صورت شبانه‌روزی سپری کرد و به‌عنوان آموزگار به زادگاه خویش بازگشت، اما به آموزگاری اکتفا نکرد و دوره دانشسرای عالی و پس از آن هم مدرّسی ریاضی را در تهران پشت سر گذاشت. او به‌عنوان مامور به تدریس راهی دانشگاه فردوسی مشهد شد اما بعد از مدتی با بورسیه وزارت فرهنگ و آموزش عالی برای تحصیل دکترا عازم انگلستان شد. در انگلستان تصمیم به تغییر گرایش از ریاضی به آمار گرفت و سرانجام در سال ۱۳۵۴ مدرک دکترای آمار خود را از دانشگاه شفیلد انگلستان دریافت کرد و به دانشگاه فردوسی بازگشت. نوه آیت‌الله نجفی قوچانی که در ۹۰ سالگی هنوز اشتیاق به مطالعه و تحقیق و سیاحت در کتاب‌های شرق و غرب داشت، با تلاش و تحقیق و مطالعه مداوم در علم آمار آثار متعددی از خود به یادگار گذاشت تا مورداستفاده حال و آیندگان قرار بگیرد. پدر علم آمار ایران ۲۲ خرداد سال ۱۴۰۴ دار فانی را وداع گفت.`;
+
 document.querySelectorAll('.video-box').forEach(box => {
   const src = box.getAttribute('data-video');
   if(!src) return;
   const placeholder = box.querySelector('.placeholder');
   if(!placeholder) return;
+  
   const video = document.createElement('video');
   video.controls = true;
   video.preload = 'metadata';
@@ -1676,7 +1688,21 @@ document.querySelectorAll('.video-box').forEach(box => {
   source.src = src;
   source.type = 'video/mp4';
   video.appendChild(source);
-  video.addEventListener('loadedmetadata', () => { placeholder.replaceWith(video); });
+  
+  video.addEventListener('loadedmetadata', () => { 
+    placeholder.replaceWith(video); 
+    
+    // اگر ویدیو مربوط به صفحه یادبود بود (yad.mp4)
+    if (src.includes('yad.mp4')) {
+      // وقتی ویدیو به پایان رسید، تایپ و موسیقی شروع شود
+      video.addEventListener('ended', () => {
+        if (currentPage === 0) {
+            startTyping('bio-text', bioTextString, 60);
+            bgMusic.play().catch(e => console.log("Audio play failed:", e));
+        }
+      });
+    }
+  });
   video.load();
 });
 
@@ -2110,94 +2136,4 @@ function updateLab2() {
 }
 
 function toggleAccordion(btn) {
-  btn.classList.toggle('open');
-  const content = btn.nextElementSibling;
-  if (content.style.maxHeight && content.style.maxHeight !== '0px') {
-    content.style.maxHeight = '0px';
-    content.classList.remove('open');
-  } else {
-    content.style.maxHeight = content.scrollHeight + 'px';
-    content.classList.add('open');
-  }
-}
-
-if(lab2Slider) {
-  lab2Slider.addEventListener('input', updateLab2);
-  setTimeout(initLab2, 100);
-}
-
-/* ===== BACKGROUND CANVAS ===== */
-(function(){
-  const canvas = document.getElementById('bgLayerCanvas');
-  if(!canvas) return;
-  const ctx = canvas.getContext('2d');
-  let W, H, dpr;
-  function resize(){
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
-    W = canvas.clientWidth;
-    H = canvas.clientHeight;
-    canvas.width = W * dpr;
-    canvas.height = H * dpr;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  }
-  window.addEventListener('resize', resize);
-  resize();
-  const particles = [];
-  const colors = ['#38bdf8', '#a78bfa', '#fb7185', '#10b981', '#facc15'];
-  for(let i=0; i<70; i++){
-    particles.push({
-      x: Math.random() * W,
-      y: Math.random() * H,
-      r: Math.random() * 2 + 1,
-      vx: (Math.random() - 0.5) * 0.8,
-      vy: (Math.random() - 0.5) * 0.8,
-      color: colors[Math.floor(Math.random()*colors.length)],
-      alpha: Math.random() * 0.45 + 0.2
-    });
-  }
-  function draw(){
-    ctx.clearRect(0, 0, W, H);
-    particles.forEach(p => {
-      p.x += p.vx;
-      p.y += p.vy;
-      if(p.x < 0 || p.x > W) p.vx *= -1;
-      if(p.y < 0 || p.y > H) p.vy *= -1;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = p.color;
-      ctx.globalAlpha = p.alpha;
-      ctx.fill();
-    });
-    ctx.globalAlpha = 0.1;
-    ctx.strokeStyle = '#38bdf8';
-    ctx.lineWidth = 0.6;
-    for(let i=0; i<particles.length; i++){
-      for(let j=i+1; j<particles.length; j++){
-        const dx = particles[i].x - particles[j].x;
-        const dy = particles[i].y - particles[j].y;
-        const dist = Math.sqrt(dx*dx + dy*dy);
-        if(dist < 180){
-          ctx.beginPath();
-          ctx.moveTo(particles[i].x, particles[i].y);
-          ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.stroke();
-        }
-      }
-    }
-    ctx.globalAlpha = 1;
-    requestAnimationFrame(draw);
-  }
-  draw();
-})();
-
-/* ===== INIT ===== */
-buildGroups();
-buildStartButtons();
-initRandomGrid();
-initClusterGrid();
-initStratified();
-goToPage(0); // شروع خودکار تایپ در صفحه اول
-</script>
-
-</body>
-  </html>
+  btn.classList
