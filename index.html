@@ -1568,8 +1568,6 @@ const bgTemplates = {
 const pages = document.querySelectorAll('.page');
 const totalPages = pages.length;
 let currentPage = 0;
-const bgMusic = new Audio('music.mp3');
-bgMusic.loop = true;
 
 function setBackground(type){
   const layer = document.getElementById('bgLayer');
@@ -1616,8 +1614,11 @@ function goToPage(index){
   document.querySelectorAll('.typing-text').forEach(el => el.classList.remove('typing-cursor'));
 
   // توقف موسیقی
-  bgMusic.pause();
-  bgMusic.currentTime = 0;
+  const bgMusic = document.getElementById('bgMusic');
+  if (bgMusic) {
+    bgMusic.pause();
+    bgMusic.currentTime = 0;
+  }
 
   pages.forEach(p => p.classList.remove('active'));
   pages[index].classList.add('active');
@@ -1685,9 +1686,18 @@ function forcePlayMusic() {
   const btn = document.getElementById('playMusicBtn');
   if (btn) btn.style.display = 'none'; // دکمه را مخفی کن
 
-  // تایپ و موسیقی را شروع کن
+  // تایپ را شروع کن
   startTyping('bio-text', bioTextString, 60);
-  bgMusic.play().catch(e => console.log("Audio play failed:", e));
+  
+  // موسیقی را پخش کن
+  const bgMusic = document.getElementById('bgMusic');
+  if (bgMusic) {
+    bgMusic.volume = 0.5; // تنظیم صدا
+    bgMusic.play().catch(e => {
+      console.log("Audio play failed:", e);
+      alert("خطا در پخش موسیقی. لطفا مطمئن شوید فایل music.mp3 در پوشه اصلی قرار دارد و مرورگر شما اجازه پخش صدا را می‌دهد.");
+    });
+  }
 }
 
 document.querySelectorAll('.video-box').forEach(box => {
@@ -1714,12 +1724,15 @@ document.querySelectorAll('.video-box').forEach(box => {
       video.addEventListener('ended', () => {
         if (currentPage === 0) {
             startTyping('bio-text', bioTextString, 60);
-            // تلاش برای پخش خودکار
-            bgMusic.play().catch(() => {
-                // اگر مرورگر مسدود کرد، دکمه را نمایش بده
-                const musicBtn = document.getElementById('playMusicBtn');
-                if (musicBtn) musicBtn.style.display = 'inline-block';
-            });
+            
+            const bgMusic = document.getElementById('bgMusic');
+            if (bgMusic) {
+              bgMusic.play().catch(() => {
+                  // اگر مرورگر مسدود کرد، دکمه را نمایش بده
+                  const musicBtn = document.getElementById('playMusicBtn');
+                  if (musicBtn) musicBtn.style.display = 'inline-block';
+              });
+            }
         }
       });
     }
@@ -2246,5 +2259,8 @@ initStratified();
 goToPage(0); // شروع خودکار تایپ در صفحه اول
 </script>
 
+<!-- Audio element for background music -->
+<audio id="bgMusic" src="music.mp3" loop></audio>
+
 </body>
-        </html>
+  </html>
