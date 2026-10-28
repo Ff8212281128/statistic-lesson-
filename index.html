@@ -748,10 +748,6 @@
     </div>
 
     <div class="typing-text" id="bio-text" style="margin-top:20px;"></div>
-    
-    <div style="text-align:center; margin: 15px 0;">
-      <button class="btn" id="playMusicBtn" onclick="forcePlayMusic()" style="display:none; padding:10px 25px; font-size:0.95rem; background:linear-gradient(135deg, var(--accent-4), #059669); color:#fff;">🎵 پخش موسیقی و ادامه داستان</button>
-    </div>
 
     <div class="btn-group">
       <button class="btn" onclick="openModal('modal-positions')">سمت‌ها</button>
@@ -1568,6 +1564,8 @@ const bgTemplates = {
 const pages = document.querySelectorAll('.page');
 const totalPages = pages.length;
 let currentPage = 0;
+const bgMusic = new Audio('music.mp3');
+bgMusic.loop = true;
 
 function setBackground(type){
   const layer = document.getElementById('bgLayer');
@@ -1614,11 +1612,8 @@ function goToPage(index){
   document.querySelectorAll('.typing-text').forEach(el => el.classList.remove('typing-cursor'));
 
   // توقف موسیقی
-  const bgMusic = document.getElementById('bgMusic');
-  if (bgMusic) {
-    bgMusic.pause();
-    bgMusic.currentTime = 0;
-  }
+  bgMusic.pause();
+  bgMusic.currentTime = 0;
 
   pages.forEach(p => p.classList.remove('active'));
   pages[index].classList.add('active');
@@ -1639,9 +1634,7 @@ function goToPage(index){
         
         if (!videoExists && !document.getElementById('bio-text').innerHTML) {
             startTyping('bio-text', `سیدابوالقاسم بزرگ‌نیا، که بزرگ‌ترین نوه آقانجفی قوچانی (صاحب کتاب معروف سیاحت غرب) است، از بچگی با درس و کتاب بیگانه نبود و در طول زندگی همواره به فکر دستیابی به مراتب علمی بالاتر بود. ابوالقاسم که سال ۱۳۱۲ در قوچان متولد شد، تحصیلات ابتدایی و متوسطه را در همان شهر گذراند. سپس به مدت دو سال دانشسرای مقدماتی را به‌صورت شبانه‌روزی سپری کرد و به‌عنوان آموزگار به زادگاه خویش بازگشت، اما به آموزگاری اکتفا نکرد و دوره دانشسرای عالی و پس از آن هم مدرّسی ریاضی را در تهران پشت سر گذاشت. او به‌عنوان مامور به تدریس راهی دانشگاه فردوسی مشهد شد اما بعد از مدتی با بورسیه وزارت فرهنگ و آموزش عالی برای تحصیل دکترا عازم انگلستان شد. در انگلستان تصمیم به تغییر گرایش از ریاضی به آمار گرفت و سرانجام در سال ۱۳۵۴ مدرک دکترای آمار خود را از دانشگاه شفیلد انگلستان دریافت کرد و به دانشگاه فردوسی بازگشت. نوه آیت‌الله نجفی قوچانی که در ۹۰ سالگی هنوز اشتیاق به مطالعه و تحقیق و سیاحت در کتاب‌های شرق و غرب داشت، با تلاش و تحقیق و مطالعه مداوم در علم آمار آثار متعددی از خود به یادگار گذاشت تا مورداستفاده حال و آیندگان قرار بگیرد. پدر علم آمار ایران ۲۲ خرداد سال ۱۴۰۴ دار فانی را وداع گفت.`, 60);
-            
-            const musicBtn = document.getElementById('playMusicBtn');
-            if (musicBtn) musicBtn.style.display = 'inline-block';
+            bgMusic.play().catch(e => console.log("Audio play failed:", e));
         }
     }, 3000);
   } else if (index === 13) {
@@ -1679,27 +1672,6 @@ function closeModal(id) {
 /* ===== VIDEO & PAGE 0 LOGIC ===== */
 const bioTextString = `سیدابوالقاسم بزرگ‌نیا، که بزرگ‌ترین نوه آقانجفی قوچانی (صاحب کتاب معروف سیاحت غرب) است، از بچگی با درس و کتاب بیگانه نبود و در طول زندگی همواره به فکر دستیابی به مراتب علمی بالاتر بود. ابوالقاسم که سال ۱۳۱۲ در قوچان متولد شد، تحصیلات ابتدایی و متوسطه را در همان شهر گذراند. سپس به مدت دو سال دانشسرای مقدماتی را به‌صورت شبانه‌روزی سپری کرد و به‌عنوان آموزگار به زادگاه خویش بازگشت، اما به آموزگاری اکتفا نکرد و دوره دانشسرای عالی و پس از آن هم مدرّسی ریاضی را در تهران پشت سر گذاشت. او به‌عنوان مامور به تدریس راهی دانشگاه فردوسی مشهد شد اما بعد از مدتی با بورسیه وزارت فرهنگ و آموزش عالی برای تحصیل دکترا عازم انگلستان شد. در انگلستان تصمیم به تغییر گرایش از ریاضی به آمار گرفت و سرانجام در سال ۱۳۵۴ مدرک دکترای آمار خود را از دانشگاه شفیلد انگلستان دریافت کرد و به دانشگاه فردوسی بازگشت. نوه آیت‌الله نجفی قوچانی که در ۹۰ سالگی هنوز اشتیاق به مطالعه و تحقیق و سیاحت در کتاب‌های شرق و غرب داشت، با تلاش و تحقیق و مطالعه مداوم در علم آمار آثار متعددی از خود به یادگار گذاشت تا مورداستفاده حال و آیندگان قرار بگیرد. پدر علم آمار ایران ۲۲ خرداد سال ۱۴۰۴ دار فانی را وداع گفت.`;
 
-function forcePlayMusic() {
-  const video = document.querySelector('[data-video="videos/yad.mp4"] video');
-  if (video) video.pause(); // ویدیو را متوقف کن
-
-  const btn = document.getElementById('playMusicBtn');
-  if (btn) btn.style.display = 'none'; // دکمه را مخفی کن
-
-  // تایپ را شروع کن
-  startTyping('bio-text', bioTextString, 60);
-  
-  // موسیقی را پخش کن
-  const bgMusic = document.getElementById('bgMusic');
-  if (bgMusic) {
-    bgMusic.volume = 0.5; // تنظیم صدا
-    bgMusic.play().catch(e => {
-      console.log("Audio play failed:", e);
-      alert("خطا در پخش موسیقی. لطفا مطمئن شوید فایل music.mp3 در پوشه اصلی قرار دارد و مرورگر شما اجازه پخش صدا را می‌دهد.");
-    });
-  }
-}
-
 document.querySelectorAll('.video-box').forEach(box => {
   const src = box.getAttribute('data-video');
   if(!src) return;
@@ -1724,15 +1696,7 @@ document.querySelectorAll('.video-box').forEach(box => {
       video.addEventListener('ended', () => {
         if (currentPage === 0) {
             startTyping('bio-text', bioTextString, 60);
-            
-            const bgMusic = document.getElementById('bgMusic');
-            if (bgMusic) {
-              bgMusic.play().catch(() => {
-                  // اگر مرورگر مسدود کرد، دکمه را نمایش بده
-                  const musicBtn = document.getElementById('playMusicBtn');
-                  if (musicBtn) musicBtn.style.display = 'inline-block';
-              });
-            }
+            bgMusic.play().catch(e => console.log("Audio play failed:", e));
         }
       });
     }
@@ -2259,8 +2223,5 @@ initStratified();
 goToPage(0); // شروع خودکار تایپ در صفحه اول
 </script>
 
-<!-- Audio element for background music -->
-<audio id="bgMusic" src="music.mp3" loop></audio>
-
 </body>
-  </html>
+            </html>
